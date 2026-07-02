@@ -3,1117 +3,456 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Storegårdskyrkan i Eksjö · Version 0.3</title>
+  <title>Storegårdskyrkan i Eksjö</title>
+  <meta name="description" content="Storegårdskyrkan i Eksjö – en varm och välkomnande gemenskap med gudstjänster, scout, Alpha, loppis och mötesplatser för alla åldrar." />
+
   <style>
     :root {
-      --cream: #fbf5eb;
-      --paper: #fffaf1;
-      --sand: #eadac6;
-      --sand-dark: #d6bea2;
-      --terracotta: #bf6848;
-      --terracotta-deep: #8f432f;
-      --green: #66745c;
-      --green-deep: #374132;
-      --brown: #4c392f;
-      --brown-soft: #775f50;
-      --ink: #28221f;
-      --muted: #837469;
-      --line: rgba(76, 57, 47, .12);
-      --shadow: 0 22px 60px rgba(56, 42, 34, .15);
-      --radius-xl: 34px;
-      --radius-lg: 26px;
-      --radius-md: 18px;
+      --bg: #f7efe4;
+      --bg-soft: #fff8ef;
+      --card: #ffffff;
+      --text: #2f241c;
+      --muted: #6f5f52;
+      --accent: #b86b3c;
+      --accent-dark: #8d4f2b;
+      --green: #6f7f59;
+      --green-dark: #4d5f3d;
+      --sand: #ead6bd;
+      --line: rgba(47, 36, 28, 0.12);
+      --shadow: 0 18px 45px rgba(68, 45, 28, 0.14);
+      --radius: 24px;
+      --max: 1180px;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at top left, rgba(191,104,72,.16), transparent 34rem),
-        linear-gradient(180deg, #fbf5eb 0%, #f5eadc 48%, #fbf5eb 100%);
-      color: var(--ink);
-      line-height: 1.5;
+        radial-gradient(circle at top left, rgba(184, 107, 60, 0.16), transparent 32rem),
+        linear-gradient(180deg, #fff8ef 0%, var(--bg) 45%, #fffaf3 100%);
+      color: var(--text);
+      line-height: 1.6;
     }
-
-    body.menu-open { overflow: hidden; }
-
 
     img {
+      max-width: 100%;
       display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
     }
 
-    a { color: inherit; text-decoration: none; }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-    .shell {
-      width: min(1220px, calc(100% - 32px));
+    .container {
+      width: min(var(--max), calc(100% - 40px));
       margin: 0 auto;
     }
 
-    .topbar {
+    /* Header */
+
+    .site-header {
       position: sticky;
       top: 0;
-      z-index: 50;
-      background: rgba(251,245,235,.84);
-      backdrop-filter: blur(18px);
+      z-index: 100;
+      background: rgba(255, 248, 239, 0.94);
+      backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--line);
     }
 
-    .quickbar {
-      background: var(--brown);
-      color: var(--paper);
-      font-size: .86rem;
-    }
-
-
-    .quickbar-inner {
-      min-height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-
-    .quickbar strong { font-weight: 850; }
-
-
-    .quickbar-links {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-      color: rgba(255,250,241,.86);
-      white-space: nowrap;
-    }
-
-
-    .quickbar-links a:hover { color: var(--paper); }
-
-
-    .nav {
-      min-height: 76px;
+    .header-inner {
+      min-height: 78px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 22px;
+      gap: 24px;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 13px;
+      gap: 14px;
       min-width: 0;
     }
 
-    .brand-logo {
+    .brand img {
       width: 54px;
       height: 54px;
-      border-radius: 17px;
-      background: var(--paper);
-      padding: 7px;
-      box-shadow: 0 10px 28px rgba(56,42,34,.12);
-      overflow: hidden;
+      object-fit: contain;
       flex: 0 0 auto;
     }
 
-    .brand-logo img { object-fit: contain; }
-
-    .brand strong {
-      display: block;
-      color: var(--brown);
-      font-size: 1rem;
-      letter-spacing: -.02em;
-      white-space: nowrap;
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
     }
 
-    .brand span {
-      display: block;
+    .brand-text strong {
+      font-size: 1.08rem;
+      letter-spacing: -0.01em;
+    }
+
+    .brand-text span {
       color: var(--muted);
-      font-size: .84rem;
+      font-size: 0.9rem;
     }
 
-    .nav-links {
+    .desktop-nav {
       display: flex;
       align-items: center;
-      gap: 5px;
-      background: rgba(255,250,241,.72);
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 6px;
+      gap: 6px;
     }
 
-    .nav-links a {
+    .desktop-nav a {
       padding: 10px 14px;
       border-radius: 999px;
-      color: var(--brown);
-      font-size: .92rem;
-      font-weight: 680;
+      color: #44352a;
+      font-weight: 650;
+      font-size: 0.96rem;
     }
 
-    .nav-links a:hover,
-    .nav-links .active {
-      background: var(--brown);
-      color: var(--paper);
+    .desktop-nav a:hover {
+      background: rgba(184, 107, 60, 0.12);
+      color: var(--accent-dark);
     }
 
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .menu-toggle {
+      display: none;
+    }
 
-
-    .give,
-    .login {
-      display: inline-flex;
+    .hamburger {
+      display: none;
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
       align-items: center;
       justify-content: center;
-      min-height: 44px;
-      padding: 0 17px;
+      background: #fff7ec;
+      cursor: pointer;
+    }
+
+    .hamburger span,
+    .hamburger span::before,
+    .hamburger span::after {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
       border-radius: 999px;
-      font-weight: 760;
-      box-shadow: 0 12px 28px rgba(55,65,50,.18);
-      white-space: nowrap;
-    }
-
-    .give {
-      background: var(--terracotta);
-      color: var(--paper);
-    }
-
-    .login {
-      background: var(--green-deep);
-      color: var(--paper);
-    }
-
-
-    .menu-toggle {
-      display: none;
-      width: 46px;
-      height: 46px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: var(--paper);
-      color: var(--brown);
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 10px 24px rgba(56,42,34,.1);
-    }
-
-
-    .menu-toggle span {
-      display: block;
-      width: 20px;
-      height: 2px;
-      background: currentColor;
-      border-radius: 999px;
-      position: relative;
-    }
-
-
-    .menu-toggle span::before,
-    .menu-toggle span::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      width: 20px;
-      height: 2px;
-      background: currentColor;
-      border-radius: 999px;
-      transition: transform .2s ease, top .2s ease;
-    }
-
-
-    .menu-toggle span::before { top: -7px; }
-    .menu-toggle span::after { top: 7px; }
-
-
-    .menu-toggle[aria-expanded="true"] span { background: transparent; }
-    .menu-toggle[aria-expanded="true"] span::before { top: 0; transform: rotate(45deg); }
-    .menu-toggle[aria-expanded="true"] span::after { top: 0; transform: rotate(-45deg); }
-
-
-    .mobile-menu {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 45;
-      background: rgba(40,34,31,.36);
-      backdrop-filter: blur(5px);
-    }
-
-
-    .mobile-menu[aria-hidden="false"] { display: block; }
-
-
-    .mobile-panel {
-      position: absolute;
-      top: 106px;
-      left: 11px;
-      right: 11px;
-      border-radius: 26px;
-      background: var(--paper);
-      box-shadow: var(--shadow);
-      padding: 18px;
-      border: 1px solid var(--line);
-    }
-
-
-    .mobile-highlight {
-      background: var(--brown);
-      color: var(--paper);
-      border-radius: 21px;
-      padding: 16px;
-      margin-bottom: 12px;
-    }
-
-
-    .mobile-highlight strong {
-      display: block;
-      font-size: 1.05rem;
-    }
-
-
-    .mobile-highlight span {
-      display: block;
-      margin-top: 3px;
-      color: rgba(255,250,241,.78);
-      font-size: .9rem;
-    }
-
-
-    .mobile-links {
-      display: grid;
-      gap: 8px;
-    }
-
-
-    .mobile-links a {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 14px 15px;
-      border-radius: 18px;
-      background: #f5eadc;
-      color: var(--brown);
-      font-weight: 820;
-    }
-
-
-    .mobile-links a::after {
-      content: "→";
-      opacity: .55;
-    }
-
-
-    .mobile-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-
-    .mobile-actions a {
-      min-height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 999px;
-      color: var(--paper);
-      font-weight: 850;
-    }
-
-
-    .mobile-actions a:first-child { background: var(--terracotta); }
-    .mobile-actions a:last-child { background: var(--green-deep); }
-
-
-    .hero { padding: 24px 0 12px; }
-
-
-    .hero-frame {
-      display: grid;
-      grid-template-columns: minmax(0, 1.38fr) minmax(330px, .62fr);
-      min-height: 655px;
-      border-radius: 42px;
-      overflow: hidden;
-      background: var(--brown);
-      box-shadow: var(--shadow);
       position: relative;
+      transition: 0.2s ease;
     }
 
-    .hero-photo { position: relative; min-height: 655px; }
-    .hero-photo::after {
+    .hamburger span::before,
+    .hamburger span::after {
       content: "";
       position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(90deg, rgba(37,29,26,.18), rgba(37,29,26,.68) 82%),
-        linear-gradient(0deg, rgba(37,29,26,.68), rgba(37,29,26,.03) 54%);
+      left: 0;
     }
 
-    .hero-story {
-      position: absolute;
-      inset: auto 42px 42px 42px;
-      z-index: 2;
-      color: var(--paper);
-      max-width: 690px;
+    .hamburger span::before {
+      top: -7px;
     }
 
-    .kicker {
+    .hamburger span::after {
+      top: 7px;
+    }
+
+    .mobile-nav {
+      display: none;
+    }
+
+    /* Hero */
+
+    .hero {
+      padding: 48px 0 34px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(320px, 0.98fr);
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .hero-content {
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: clamp(26px, 4vw, 54px);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 440px;
+    }
+
+    .eyebrow {
       display: inline-flex;
+      width: fit-content;
       align-items: center;
-      gap: 9px;
+      gap: 8px;
+      padding: 8px 12px;
       border-radius: 999px;
-      padding: 8px 13px;
-      background: rgba(255,250,241,.18);
-      border: 1px solid rgba(255,250,241,.34);
-      color: var(--paper);
-      font-size: .82rem;
-      font-weight: 760;
-      letter-spacing: .02em;
-      backdrop-filter: blur(10px);
+      background: rgba(111, 127, 89, 0.14);
+      color: var(--green-dark);
+      font-weight: 750;
+      font-size: 0.9rem;
       margin-bottom: 18px;
-    }
-
-    .kicker::before {
-      content: "";
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: #e7bd76;
     }
 
     h1, h2, h3 {
       margin: 0;
-      line-height: 1.02;
-      letter-spacing: -.055em;
-      color: var(--brown);
+      line-height: 1.12;
+      letter-spacing: -0.03em;
     }
 
     h1 {
-      color: var(--paper);
-      font-size: clamp(3.4rem, 7vw, 7.2rem);
-      max-width: 9.4ch;
-      text-wrap: balance;
+      font-size: clamp(2.6rem, 7vw, 5.5rem);
+      max-width: 8.5ch;
     }
 
-    .hero-lead {
-      margin: 22px 0 0;
-      max-width: 620px;
-      color: rgba(255,250,241,.9);
-      font-size: clamp(1.18rem, 1.7vw, 1.48rem);
-      text-wrap: pretty;
+    .hero-content p {
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      max-width: 58ch;
+      color: var(--muted);
+      margin: 24px 0 0;
     }
 
     .hero-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
-      margin-top: 28px;
+      margin-top: 30px;
     }
 
-    .btn {
-      min-height: 50px;
+    .button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 0 20px;
+      min-height: 48px;
+      padding: 12px 18px;
       border-radius: 999px;
-      font-weight: 800;
-      transition: transform .18s ease, box-shadow .18s ease;
+      font-weight: 750;
+      border: 1px solid transparent;
     }
 
-    .btn:hover { transform: translateY(-1px); }
-
-    .btn-primary {
-      background: var(--terracotta);
-      color: var(--paper);
-      box-shadow: 0 15px 34px rgba(191,104,72,.34);
+    .button.primary {
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 12px 28px rgba(184, 107, 60, 0.26);
     }
 
-    .btn-light {
-      background: rgba(255,250,241,.92);
-      color: var(--brown);
-      border: 1px solid rgba(255,255,255,.45);
+    .button.primary:hover {
+      background: var(--accent-dark);
     }
 
-    .hero-side {
-      background: var(--paper);
-      padding: 28px;
+    .button.secondary {
+      background: #fffaf3;
+      color: var(--accent-dark);
+      border-color: rgba(184, 107, 60, 0.28);
+    }
+
+    .button.secondary:hover {
+      background: rgba(184, 107, 60, 0.1);
+    }
+
+    .hero-image {
+      border-radius: var(--radius);
+      overflow: hidden;
+      min-height: 440px;
+      box-shadow: var(--shadow);
+      position: relative;
+      background: #d9c2aa;
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-quote {
+      position: absolute;
+      left: 22px;
+      right: 22px;
+      bottom: 22px;
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(255, 248, 239, 0.9);
+      backdrop-filter: blur(8px);
+      color: var(--text);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    }
+
+    .hero-quote strong {
+      display: block;
+      font-size: 1.05rem;
+      margin-bottom: 4px;
+    }
+
+    .hero-quote span {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    /* Shared sections */
+
+    section {
+      padding: 34px 0;
+      scroll-margin-top: 96px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 22px;
+      margin-bottom: 18px;
+    }
+
+    .section-head h2 {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+    }
+
+    .section-head p {
+      max-width: 54ch;
+      color: var(--muted);
+      margin: 8px 0 0;
+    }
+
+    .panel {
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    /* Calendar */
+
+    .calendar-wrap {
       display: grid;
-      grid-template-rows: auto 1fr auto;
-      gap: 20px;
-      min-width: 0;
-    }
-
-    .side-heading { border-bottom: 1px solid var(--line); padding-bottom: 18px; }
-    .eyebrow {
-      margin: 0 0 10px;
-      color: var(--terracotta-deep);
-      font-weight: 820;
-      font-size: .76rem;
-      text-transform: uppercase;
-      letter-spacing: .1em;
-    }
-
-    .side-heading h2 { font-size: clamp(2rem, 2.8vw, 3rem); }
-    .event-stack { display: grid; gap: 11px; align-content: start; }
-    .event-card {
-      display: grid;
-      grid-template-columns: 62px minmax(0,1fr);
-      gap: 13px;
-      align-items: center;
-      border-radius: 21px;
-      padding: 12px;
-      background: #f5eadc;
-      border: 1px solid rgba(76,57,47,.09);
-    }
-
-    .date {
-      height: 62px;
-      border-radius: 17px;
-      background: var(--paper);
-      display: grid;
-      place-items: center;
-      color: var(--terracotta-deep);
-      font-weight: 900;
-      line-height: .98;
-      box-shadow: 0 8px 20px rgba(76,57,47,.08);
-    }
-
-    .date strong { font-size: 1.25rem; }
-    .date span { display: block; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
-
-    .event-card h3 { font-size: 1rem; letter-spacing: -.02em; }
-    .event-card p { margin: 3px 0 0; color: var(--muted); font-size: .88rem; }
-    .filter-row { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 4px; }
-    .chip {
-      border: 0;
-      border-radius: 999px;
-      background: #eadac6;
-      color: var(--brown);
-      padding: 8px 10px;
-      font-weight: 800;
-      font-size: .78rem;
-      cursor: pointer;
-    }
-
-    .chip.active { background: var(--green-deep); color: var(--paper); }
-    .story-band { padding: 14px 0 0; }
-    .band-grid {
-      display: grid;
-      grid-template-columns: 1.05fr .95fr;
-      gap: 14px;
+      grid-template-columns: 0.86fr 1.14fr;
+      gap: 22px;
       align-items: stretch;
     }
 
-    .pastor-panel {
-      display: grid;
-      grid-template-columns: .85fr 1.15fr;
-      min-height: 410px;
-      border-radius: var(--radius-xl);
-      overflow: hidden;
-      background: var(--green-deep);
-      box-shadow: var(--shadow);
-    }
-
-    .pastor-copy {
-      padding: clamp(24px, 3.2vw, 42px);
+    .calendar-intro {
+      padding: 28px;
+      background:
+        linear-gradient(135deg, rgba(111, 127, 89, 0.92), rgba(77, 95, 61, 0.94)),
+        url("images/Kyrkan-sept-2011-062.jpg") center/cover;
+      color: white;
+      min-height: 310px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      color: var(--paper);
-    }
-
-    .pastor-copy h2 {
-      color: var(--paper);
-      font-size: clamp(2.2rem, 4vw, 4rem);
-      max-width: 8ch;
-    }
-
-    .pastor-copy p {
-      margin: 18px 0 0;
-      color: rgba(255,250,241,.86);
-      font-size: 1.03rem;
-      max-width: 420px;
-    }
-
-    .quote-line {
-      margin-top: 24px;
-      padding-left: 18px;
-      border-left: 5px solid var(--terracotta);
-      color: var(--paper) !important;
-      font-weight: 820;
-      font-size: 1.14rem !important;
-    }
-
-    .living-panel {
-      border-radius: var(--radius-xl);
-      padding: clamp(24px, 3vw, 38px);
-      background: var(--terracotta);
-      color: var(--paper);
-      box-shadow: var(--shadow);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
+      justify-content: end;
       overflow: hidden;
-    }
-
-    .living-panel::after {
-      content: "";
-      position: absolute;
-      right: -90px;
-      bottom: -90px;
-      width: 260px;
-      height: 260px;
-      border-radius: 999px;
-      background: rgba(255,250,241,.14);
-    }
-
-    .living-panel h2 {
-      color: var(--paper);
-      font-size: clamp(2.2rem, 4vw, 4.4rem);
-      max-width: 8ch;
-    }
-
-    .living-panel p {
-      margin: 18px 0 0;
-      color: rgba(255,250,241,.88);
-      font-size: 1.08rem;
-      max-width: 430px;
-    }
-
-    .mini-facts {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-top: 26px;
       position: relative;
-      z-index: 2;
     }
 
-    .mini-facts div {
-      border-radius: 18px;
-      padding: 14px;
-      background: rgba(255,250,241,.18);
-      border: 1px solid rgba(255,250,241,.18);
-    }
-
-    .mini-facts strong { display: block; font-size: .92rem; }
-    .mini-facts span {
-      display: block;
-      margin-top: 3px;
-      color: rgba(255,250,241,.76);
-      font-size: .82rem;
-    }
-
-    .activities { padding: 14px 0 0; }
-    .section-title {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(260px, 420px);
-      gap: 24px;
-      align-items: end;
-      margin: 0 0 14px;
-    }
-
-    .section-title h2 {
-      font-size: clamp(2.25rem, 5vw, 5rem);
-      max-width: 12ch;
-    }
-
-    .section-title p {
-      margin: 0;
-      color: var(--brown-soft);
-      font-size: 1.05rem;
-    }
-
-    .mosaic {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      grid-auto-rows: 178px;
-      gap: 12px;
-    }
-
-    .tile {
-      position: relative;
-      overflow: hidden;
-      border-radius: 28px;
-      background: var(--sand);
-      box-shadow: 0 16px 44px rgba(56,42,34,.13);
-      min-height: 178px;
-    }
-
-    .tile::after {
+    .calendar-intro::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(0deg, rgba(34,28,25,.72), rgba(34,28,25,.1) 58%);
+      background: linear-gradient(180deg, transparent, rgba(0,0,0,0.22));
     }
 
-    .tile-content {
-      position: absolute;
-      z-index: 2;
-      left: 22px;
-      right: 22px;
-      bottom: 19px;
-      color: var(--paper);
+    .calendar-intro > * {
+      position: relative;
     }
 
-    .tile h3 { color: var(--paper); font-size: clamp(1.35rem, 2.2vw, 2.2rem); }
-    .tile p {
-      margin: 6px 0 0;
-      color: rgba(255,250,241,.86);
-      max-width: 330px;
-      font-size: .94rem;
+    .calendar-intro h2 {
+      font-size: clamp(1.8rem, 4vw, 3rem);
     }
 
-    .tile.scout { grid-column: span 3; grid-row: span 2; }
-    .tile.loppis { grid-column: span 3; grid-row: span 1; }
-    .tile.children { grid-column: span 2; grid-row: span 1; }
-    .tile.service { grid-column: span 2; grid-row: span 1; }
-    .tile.church { grid-column: span 2; grid-row: span 1; }
+    .calendar-intro p {
+      margin: 12px 0 0;
+      color: rgba(255,255,255,0.88);
+    }
 
-    .community-strip { padding: 14px 0 0; }
-    .strip-grid {
+    .event-list {
+      padding: 18px;
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
       gap: 12px;
     }
 
-    .strip-card {
-      border-radius: 26px;
-      min-height: 205px;
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      box-shadow: 0 16px 44px rgba(56,42,34,.12);
-    }
-
-    .strip-card:nth-child(1) { background: var(--brown); color: var(--paper); }
-    .strip-card:nth-child(2) { background: var(--green); color: var(--paper); }
-    .strip-card:nth-child(3) { background: var(--sand); color: var(--brown); }
-    .strip-card:nth-child(4) { background: var(--terracotta-deep); color: var(--paper); }
-
-    .strip-card h3 { color: inherit; font-size: 1.65rem; }
-    .strip-card p { margin: 12px 0 0; color: inherit; opacity: .84; }
-    .strip-card span { margin-top: 24px; font-weight: 850; opacity: .76; }
-    .gallery-section { padding: 14px 0 0; }
-    .gallery {
+    .event-card {
       display: grid;
-      grid-template-columns: 1.35fr .75fr .9fr;
-      grid-template-rows: 230px 230px;
-      gap: 12px;
+      grid-template-columns: 82px 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 16px;
+      border-radius: 20px;
+      background: #fffaf5;
+      border: 1px solid rgba(47,36,28,0.09);
     }
 
-    .gallery figure {
-      margin: 0;
-      border-radius: 28px;
-      overflow: hidden;
-      box-shadow: 0 16px 44px rgba(56,42,34,.12);
+    .event-date {
       background: var(--sand);
-    }
-
-    .gallery figure:first-child { grid-row: span 2; }
-    .gallery figure:nth-child(4) { grid-column: span 2; }
-
-    .contact { padding: 14px 0 40px; }
-    .contact-card {
-      border-radius: 36px;
-      background: var(--brown);
-      color: var(--paper);
-      min-height: 280px;
-      display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-    }
-
-    .contact-copy {
-      padding: clamp(26px, 4vw, 46px);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .contact-copy h2 {
-      color: var(--paper);
-      font-size: clamp(2.3rem, 4vw, 4.3rem);
-      max-width: 10ch;
-    }
-
-    .contact-copy p {
-      margin: 18px 0 0;
-      color: rgba(255,250,241,.82);
-      max-width: 560px;
-      font-size: 1.05rem;
-    }
-
-    .contact-info {
-      background: var(--green-deep);
-      padding: clamp(26px, 4vw, 42px);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 12px;
-      color: rgba(255,250,241,.9);
-    }
-
-    .contact-info strong { color: var(--paper); font-size: 1.15rem; }
-    .version-note {
-      color: var(--muted);
+      color: var(--text);
+      border-radius: 18px;
+      padding: 12px 10px;
       text-align: center;
-      margin: 14px 0 0;
-      font-size: .84rem;
+      font-weight: 800;
+      line-height: 1.1;
     }
 
-    @media (max-width: 1040px) {
-      .hero-frame,
-      .band-grid,
-      .contact-card,
-      .section-title { grid-template-columns: 1fr; }
-      .hero-frame { min-height: auto; }
-      .hero-photo { min-height: 560px; }
-      .hero-side { grid-template-rows: auto; }
-
-      .pastor-panel { grid-template-columns: 1fr; }
-      .pastor-panel .pastor-image { height: 420px; }
-
-      .mosaic { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 240px; }
-      .tile.scout, .tile.loppis, .tile.children, .tile.service, .tile.church {
-        grid-column: span 1;
-        grid-row: span 1;
-      }
-
-      .strip-grid { grid-template-columns: 1fr 1fr; }
-      .gallery { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(3, 220px); }
-      .gallery figure:first-child, .gallery figure:nth-child(4) { grid-column: auto; grid-row: auto; }
+    .event-date span {
+      display: block;
+      font-size: 1.55rem;
     }
 
-    @media (max-width: 820px) {
-      .quickbar { display: none; }
-      .nav { min-height: 68px; }
-      .nav-links, .header-actions .give, .header-actions .login { display: none; }
-      .menu-toggle { display: inline-flex; }
-    }
-
-
-    @media (max-width: 720px) {
-      .shell { width: min(100% - 22px, 1220px); }
-      .brand-logo { width: 48px; height: 48px; border-radius: 15px; }
-      .brand strong { font-size: .96rem; }
-      .brand span { font-size: .76rem; max-width: 210px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-      .mobile-panel { top: 79px; }
-
-
-      .hero { padding-top: 12px; }
-      .hero-frame { border-radius: 26px; }
-      .hero-photo { min-height: 430px; }
-      .hero-story { left: 22px; right: 22px; bottom: 22px; }
-      h1 { font-size: clamp(2.8rem, 13vw, 4.1rem); }
-      .hero-lead { font-size: 1.04rem; }
-      .hero-actions { flex-direction: column; }
-      .btn { width: 100%; }
-      .hero-side { padding: 20px; }
-
-      .event-card { grid-template-columns: 58px minmax(0,1fr); }
-      .date { height: 58px; }
-
-      .pastor-panel,
-      .living-panel,
-      .tile,
-      .strip-card,
-      .contact-card,
-      .gallery figure { border-radius: 23px; }
-      .pastor-panel .pastor-image { height: 340px; }
-      .pastor-copy, .living-panel, .contact-copy, .contact-info { padding: 22px; }
-      .mini-facts { grid-template-columns: 1fr; }
-      .mosaic, .strip-grid, .gallery { grid-template-columns: 1fr; }
-      .mosaic { grid-auto-rows: 255px; }
-      .gallery { grid-template-rows: repeat(5, 230px); }
-      .mobile-actions { grid-template-columns: 1fr; }
+    .event-card h3 {
+      font-size: 1.12rem;
+      margin-bottom: 4px;
     }
-  </style>
-</head>
-<body>
-  <header class="topbar">
-    <div class="quickbar">
-      <div class="shell quickbar-inner">
-        <span><strong>Nästa gudstjänst:</strong> söndag kl. 10.00</span>
-        <nav class="quickbar-links" aria-label="Snabblänkar">
-          <a href="#calendar">Kalender</a>
-          <a href="#contact">Hitta hit</a>
-          <a href="#give">Ge en gåva</a>
-        </nav>
-      </div>
-    </div>
 
+    .event-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
 
-    <nav class="shell nav" aria-label="Huvudnavigering">
-      <a class="brand" href="#top" aria-label="Till startsidan">
-        <span class="brand-logo"><img src="images/logo.png" alt="Storegårdskyrkans logotyp"></span>
-        <span>
-          <strong>Storegårdskyrkan</strong>
-          <span>Eksjö · tro, gemenskap och vardag</span>
-        </span>
-      </a>
+    .event-tag {
+      background: rgba(184, 107, 60, 0.12);
+      color: var(--accent-dark);
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 0.86rem;
+      font-weight: 750;
+      white-space: nowrap;
+    }
 
+    /* New here */
 
-      <div class="nav-links" aria-label="Navigering">
-        <a class="active" href="#top">Hem</a>
-        <a href="#calendar">Kalender</a>
-        <a href="#activities">Gudstjänst</a>
-        <a href="#activities">Scout</a>
-        <a href="#new">Ny här?</a>
-        <a href="#contact">Kontakt</a>
-      </div>
+    .new-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(280px, 1.05fr);
+      gap: 22px;
+      align-items: stretch;
+    }
 
+    .pastor-card {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 22px;
+      padding: 22px;
+      align-items: center;
+    }
 
-      <div class="header-actions">
-        <a class="give" href="#give">Ge en gåva</a>
-        <a class="login" href="#login">Logga in</a>
-        <button class="menu-toggle" type="button" aria-label="Öppna meny" aria-expanded="false" aria-controls="mobileMenu">
-          <span></span>
-        </button>
-      </div>
-    </nav>
-  </header>
-
-  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
-    <div class="mobile-panel" role="dialog" aria-label="Mobilmeny">
-      <div class="mobile-highlight">
-        <strong>Nästa gudstjänst</strong>
-        <span>Söndag kl. 10.00 · Storegårdskyrkan i Eksjö</span>
-      </div>
-      <nav class="mobile-links" aria-label="Mobilnavigering">
-        <a href="#calendar">Kalender</a>
-        <a href="#activities">Gudstjänst</a>
-        <a href="#activities">Scout</a>
-        <a href="#activities">Barn & unga</a>
-        <a href="#new">Ny här?</a>
-        <a href="#contact">Kontakt och hitta hit</a>
-      </nav>
-      <div class="mobile-actions">
-        <a href="#give">Ge en gåva</a>
-        <a href="#login">Logga in</a>
-      </div>
-    </div>
-  </div>
-
-
-  <main id="top">
-    <section class="shell hero" aria-labelledby="hero-title">
-      <div class="hero-frame">
-        <div class="hero-photo">
-          <img src="images/Sommaren_2008_088.jpg" alt="Storegårdskyrkan i sommarmiljö">
-          <div class="hero-story">
-            <span class="kicker">En kyrka mitt i livet</span>
-            <h1 id="hero-title">Här finns plats för dig</h1>
-            <p class="hero-lead">Storegårdskyrkan är en varm mötesplats i Eksjö för gudstjänst, frågor, barn och unga, scout, musik, loppis och gemenskap.</p>
-            <div class="hero-actions">
-              <a class="btn btn-primary" href="#calendar">Se vad som händer snart</a>
-              <a class="btn btn-light" href="#new">Jag är ny här</a>
-            </div>
-          </div>
-        </div>
-
-        <aside id="calendar" class="hero-side" aria-labelledby="calendar-title">
-          <div class="side-heading">
-            <p class="eyebrow">Kalendern</p>
-            <h2 id="calendar-title">Nästa tillfällen</h2>
-          </div>
-
-          <div class="filter-row" aria-label="Filtrera kalender">
-            <button class="chip active" data-filter="alla">Alla</button>
-            <button class="chip" data-filter="Gudstjänst">Gudstjänst</button>
-            <button class="chip" data-filter="Scout">Scout</button>
-            <button class="chip" data-filter="Alpha">Alpha</button>
-            <button class="chip" data-filter="Loppis">Loppis</button>
-          </div>
-
-          <div class="event-stack">
-            <article class="event-card" data-category="Gudstjänst">
-              <div class="date"><div><strong>5</strong><span>jul</span></div></div>
-              <div><h3>Gudstjänst</h3><p>10.00 · musik, predikan och gemenskap</p></div>
-            </article>
-            <article class="event-card" data-category="Scout">
-              <div class="date"><div><strong>9</strong><span>jul</span></div></div>
-              <div><h3>Scoutkväll</h3><p>18.00 · äventyr och gemenskap</p></div>
-            </article>
-            <article class="event-card" data-category="Alpha">
-              <div class="date"><div><strong>13</strong><span>jul</span></div></div>
-              <div><h3>Alpha</h3><p>18.30 · samtal om liv och tro</p></div>
-            </article>
-            <article class="event-card" data-category="Loppis">
-              <div class="date"><div><strong>18</strong><span>jul</span></div></div>
-              <div><h3>Loppis</h3><p>10.00 · fynd, fika och möten</p></div>
-            </article>
-          </div>
-
-          <a class="btn btn-primary" href="#">Öppna hela kalendern</a>
-        </aside>
-      </div>
-    </section>
-
-    <section id="new" class="shell story-band" aria-labelledby="new-title">
-      <div class="band-grid">
-        <article class="pastor-panel">
-          <div class="pastor-image"><img src="images/pastor.png" alt="Porträttbild vid välkomsthälsning"></div>
-          <div class="pastor-copy">
-            <p class="eyebrow">Ny här?</p>
-            <h2 id="new-title">Kom som du är</h2>
-            <p>Du behöver inte kunna allt, tro allt eller veta hur kyrkan fungerar. Börja med en gudstjänst, en kopp kaffe eller ett samtal.</p>
-            <p class="quote-line">Tro växer bäst tillsammans med andra människor.</p>
-          </div>
-        </article>
-
-        <article class="living-panel">
-          <div>
-            <p class="eyebrow" style="color: rgba(255,250,241,.74);">Mer än söndag</p>
-            <h2>En vecka med liv</h2>
-            <p>Kalendern är inte en bilaga. Den är navet. Där syns gudstjänsterna, scoutkvällarna, Alpha, loppis och de mindre sammanhangen.</p>
-          </div>
-          <div class="mini-facts">
-            <div><strong>Söndag</strong><span>Gudstjänst</span></div>
-            <div><strong>Vecka</strong><span>Scout, Alpha, grupper</span></div>
-            <div><strong>Lördag</strong><span>Loppis och möten</span></div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section id="activities" class="shell activities" aria-labelledby="activities-title">
-      <div class="section-title">
-        <div>
-          <p class="eyebrow">Verksamheter</p>
-          <h2 id="activities-title">Saker vi gör tillsammans</h2>
-        </div>
-        <p>Version 0.3 har mobilmeny och bildvägarna är uppdaterade till images-mappen.</p>
-      </div>
-
-      <div class="mosaic">
-        <a class="tile scout" href="#">
-          <img src="images/scout.jpg" alt="Scoutverksamhet">
-          <div class="tile-content"><h3>Scout</h3><p>Äventyr, praktiskt lärande och gemenskap för barn och unga.</p></div>
-        </a>
-        <a class="tile loppis" href="#">
-          <img src="images/Loppis.jpg" alt="Loppisverksamhet">
-          <div class="tile-content"><h3>Loppis</h3><p>Fynd, fika och samtal.</p></div>
-        </a>
-        <a class="tile children" href="#">
-          <img src="images/Sommaren-2010-009.jpg" alt="Barn och unga i gemenskap">
-          <div class="tile-content"><h3>Barn & unga</h3><p>Platser där unga får växa.</p></div>
-        </a>
-        <a class="tile service" href="#">
-          <img src="images/Julfest-i-kyrkan-12-dec-2010-058.jpg" alt="Samling i kyrkan">
-          <div class="tile-content"><h3>Gudstjänst</h3><p>Söndagar kl. 10.00.</p></div>
-        </a>
-        <a class="tile church" href="#">
-          <img src="images/Kyrkan-sept-2011-062.jpg" alt="Storegårdskyrkan exteriört">
-          <div class="tile-content"><h3>Hitta hit</h3><p>En kyrka mitt i Eksjö.</p></div>
-        </a>
-      </div>
-    </section>
-
-    <section class="shell community-strip" aria-labelledby="community-title">
-      <div class="section-title">
-        <div>
-          <p class="eyebrow">Gemenskap</p>
-          <h2 id="community-title">Fler vägar in</h2>
-        </div>
-        <p>Alla börjar inte på samma plats. Någon börjar med frågor, någon med musik, någon med fika eller praktiskt arbete.</p>
-      </div>
-      <div class="strip-grid">
-        <article class="strip-card"><div><h3>Alpha</h3><p>En plats där frågor får ta tid.</p></div><span>Nyfiken?</span></article>
-        <article class="strip-card"><div><h3>Hemgrupper</h3><p>Mindre sammanhang för tro och vardag.</p></div><span>Tillsammans</span></article>
-        <article class="strip-card"><div><h3>Öppen kyrka</h3><p>Kom in en stund. Prata – eller var bara där.</p></div><span>Välkommen in</span></article>
-        <article class="strip-card"><div><h3>Musik & lovsång</h3><p>Gemenskap genom sång och musik.</p></div><span>Var med</span></article>
-      </div>
-    </section>
-
-    <section class="shell gallery-section" aria-labelledby="gallery-title">
-      <div class="section-title">
-        <div>
-          <p class="eyebrow">Bilder från livet här</p>
-          <h2 id="gallery-title">Människor före organisation</h2>
-        </div>
-        <p>Galleri och mosaik ger startsidan mer rytm och mindre känsla av staplade block.</p>
-      </div>
-      <div class="gallery">
-        <figure><img src="images/Kyrkan-sept-2011-062.jpg" alt="Storegårdskyrkans byggnad"></figure>
-        <figure><img src="images/Sommaren_2008_088.jpg" alt="Sommarbild från kyrkan"></figure>
-        <figure><img src="images/Sommaren-2010-009.jpg" alt="Aktivitet och gemenskap"></figure>
-        <figure><img src="images/Julfest-i-kyrkan-12-dec-2010-058.jpg" alt="Samling i kyrkan"></figure>
-        <figure><img src="images/Loppis.jpg" alt="Loppis"></figure>
-      </div>
-    </section>
-
-    <section id="contact" class="shell contact" aria-labelledby="contact-title">
-      <div class="contact-card">
-        <div class="contact-copy">
-          <p class="eyebrow" style="color: rgba(255,250,241,.74);">Kontakt</p>
-          <h2 id="contact-title">Vill du veta mer?</h2>
-          <p>Börja gärna med kalendern. Där ser du vad som händer närmast. Det går också bra att höra av sig eller bara komma på en gudstjänst.</p>
-        </div>
-        <div class="contact-info">
-          <strong>Storegårdskyrkan</strong>
-          <span>Eksjö</span>
-          <span>Gudstjänst söndagar kl. 10.00</span>
-          <span>Kontaktuppgifter läggs in här</span>
-        </div>
-      </div>
-      <p class="version-note">Förhandsversion 0.3 · mobilmeny, snabblänkar och bildvägar till images/</p>
-    </section>
-  </main>
-
-  <script>
-    const chips = document.querySelectorAll('.chip');
-    const cards = document.querySelectorAll('.event-card');
-    const menuButton = document.querySelector('.menu-toggle');
-    const mobileMenu = document.querySelector('#mobileMenu');
-    const mobileLinks = document.querySelectorAll('.mobile-menu a');
-    chips.forEach(chip => {
-      chip.addEventListener('click', () => {
-        const selected = chip.dataset.filter;
-        chips.forEach(item => item.classList.remove('active'));
-        chip.classList.add('active');
-        cards.forEach(card => {
-          card.style.display = selected === 'alla' || card.dataset.category === selected ? 'grid' : 'none';
-        });
-      });
-    });
-
-
-    function setMenu(open) {
-      menuButton.setAttribute('aria-expanded', open ? 'true' : 'false');
-      mobileMenu.setAttribute('aria-hidden', open ? 'false' : 'true');
-      document.body.classList.toggle('menu-open', open);
-    }
-
-
-    menuButton.addEventListener('click', () => {
-      const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
-      setMenu(!isOpen);
-    });
-
-
-    mobileMenu.addEventListener('click', event => {
-      if (event.target === mobileMenu) setMenu(false);
-    });
-
-
-    mobileLinks.forEach(link => {
-      link.addEventListener('click', () => setMenu(false));
-    });
-  </script>
-</body>
+    .pastor-card img {
+      width: 180px;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 22px;
