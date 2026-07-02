@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Storegårdskyrkan i Eksjö</title>
-  <meta name="description" content="Storegårdskyrkan i Eksjö – en varm och välkomnande gemenskap med gudstjänster, scout, Alpha, loppis och mötesplatser för alla åldrar." />
+  <meta name="description" content="Storegårdskyrkan i Eksjö – en varm och välkomnande gemenskap med gudstjänster, scout, Alpha, loppis och mötesplatser för alla åldrar.">
 
   <style>
     :root {
-      --bg: #f7efe4;
-      --bg-soft: #fff8ef;
+      --bg: #f7efe6;
+      --bg-light: #fff9f1;
       --card: #ffffff;
-      --text: #2f241c;
-      --muted: #6f5f52;
+      --text: #2d241d;
+      --muted: #6d5f54;
       --accent: #b86b3c;
-      --accent-dark: #8d4f2b;
+      --accent-dark: #894b28;
       --green: #6f7f59;
-      --green-dark: #4d5f3d;
-      --sand: #ead6bd;
-      --line: rgba(47, 36, 28, 0.12);
-      --shadow: 0 18px 45px rgba(68, 45, 28, 0.14);
+      --green-dark: #4e5f3e;
+      --sand: #ead7bd;
+      --line: rgba(45, 36, 29, 0.13);
+      --shadow: 0 18px 45px rgba(71, 48, 28, 0.14);
       --radius: 24px;
-      --max: 1180px;
+      --max-width: 1180px;
     }
 
     * {
@@ -35,16 +35,16 @@
     body {
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(184, 107, 60, 0.16), transparent 32rem),
-        linear-gradient(180deg, #fff8ef 0%, var(--bg) 45%, #fffaf3 100%);
       color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(184, 107, 60, 0.14), transparent 36rem),
+        linear-gradient(180deg, #fff9f1 0%, var(--bg) 48%, #fffaf4 100%);
       line-height: 1.6;
     }
 
     img {
-      max-width: 100%;
       display: block;
+      max-width: 100%;
     }
 
     a {
@@ -53,19 +53,17 @@
     }
 
     .container {
-      width: min(var(--max), calc(100% - 40px));
+      width: min(var(--max-width), calc(100% - 40px));
       margin: 0 auto;
     }
-
-    /* Header */
 
     .site-header {
       position: sticky;
       top: 0;
-      z-index: 100;
-      background: rgba(255, 248, 239, 0.94);
-      backdrop-filter: blur(12px);
+      z-index: 1000;
+      background: rgba(255, 249, 241, 0.95);
       border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
     }
 
     .header-inner {
@@ -73,7 +71,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 24px;
+      gap: 20px;
     }
 
     .brand {
@@ -102,8 +100,8 @@
     }
 
     .brand-text span {
-      color: var(--muted);
       font-size: 0.9rem;
+      color: var(--muted);
     }
 
     .desktop-nav {
@@ -113,11 +111,14 @@
     }
 
     .desktop-nav a {
-      padding: 10px 14px;
+      display: inline-flex;
+      align-items: center;
+      min-height: 42px;
+      padding: 9px 14px;
       border-radius: 999px;
-      color: #44352a;
-      font-weight: 650;
-      font-size: 0.96rem;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #44362b;
     }
 
     .desktop-nav a:hover {
@@ -126,7 +127,9 @@
     }
 
     .menu-toggle {
-      display: none;
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
     }
 
     .hamburger {
@@ -135,9 +138,9 @@
       height: 44px;
       border: 1px solid var(--line);
       border-radius: 14px;
+      background: #fff7ec;
       align-items: center;
       justify-content: center;
-      background: #fff7ec;
       cursor: pointer;
     }
 
@@ -172,43 +175,39 @@
       display: none;
     }
 
-    /* Hero */
-
     .hero {
-      padding: 48px 0 34px;
+      padding: 48px 0 28px;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.02fr) minmax(320px, 0.98fr);
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
       gap: 28px;
       align-items: stretch;
     }
 
     .hero-content {
-      background: rgba(255, 255, 255, 0.74);
+      min-height: 450px;
+      padding: clamp(28px, 4vw, 56px);
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      padding: clamp(26px, 4vw, 54px);
+      background: rgba(255, 255, 255, 0.75);
       box-shadow: var(--shadow);
       display: flex;
       flex-direction: column;
       justify-content: center;
-      min-height: 440px;
     }
 
     .eyebrow {
       display: inline-flex;
       width: fit-content;
-      align-items: center;
-      gap: 8px;
+      margin-bottom: 18px;
       padding: 8px 12px;
       border-radius: 999px;
       background: rgba(111, 127, 89, 0.14);
       color: var(--green-dark);
-      font-weight: 750;
+      font-weight: 800;
       font-size: 0.9rem;
-      margin-bottom: 18px;
     }
 
     h1, h2, h3 {
@@ -218,15 +217,23 @@
     }
 
     h1 {
-      font-size: clamp(2.6rem, 7vw, 5.5rem);
-      max-width: 8.5ch;
+      max-width: 9ch;
+      font-size: clamp(2.6rem, 7vw, 5.4rem);
+    }
+
+    h2 {
+      font-size: clamp(1.85rem, 4vw, 3rem);
+    }
+
+    h3 {
+      font-size: 1.25rem;
     }
 
     .hero-content p {
-      font-size: clamp(1.05rem, 2vw, 1.25rem);
       max-width: 58ch;
-      color: var(--muted);
       margin: 24px 0 0;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 2vw, 1.22rem);
     }
 
     .hero-actions {
@@ -243,37 +250,37 @@
       min-height: 48px;
       padding: 12px 18px;
       border-radius: 999px;
-      font-weight: 750;
       border: 1px solid transparent;
+      font-weight: 800;
     }
 
-    .button.primary {
+    .button-primary {
       background: var(--accent);
       color: white;
-      box-shadow: 0 12px 28px rgba(184, 107, 60, 0.26);
+      box-shadow: 0 12px 28px rgba(184, 107, 60, 0.25);
     }
 
-    .button.primary:hover {
+    .button-primary:hover {
       background: var(--accent-dark);
     }
 
-    .button.secondary {
+    .button-secondary {
       background: #fffaf3;
       color: var(--accent-dark);
       border-color: rgba(184, 107, 60, 0.28);
     }
 
-    .button.secondary:hover {
+    .button-secondary:hover {
       background: rgba(184, 107, 60, 0.1);
     }
 
     .hero-image {
+      min-height: 450px;
       border-radius: var(--radius);
       overflow: hidden;
-      min-height: 440px;
+      background: var(--sand);
       box-shadow: var(--shadow);
       position: relative;
-      background: #d9c2aa;
     }
 
     .hero-image img {
@@ -289,24 +296,21 @@
       bottom: 22px;
       padding: 18px;
       border-radius: 20px;
-      background: rgba(255, 248, 239, 0.9);
-      backdrop-filter: blur(8px);
-      color: var(--text);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+      background: rgba(255, 249, 241, 0.92);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.14);
+      backdrop-filter: blur(7px);
     }
 
     .hero-quote strong {
       display: block;
-      font-size: 1.05rem;
       margin-bottom: 4px;
+      font-size: 1.05rem;
     }
 
     .hero-quote span {
       color: var(--muted);
       font-size: 0.95rem;
     }
-
-    /* Shared sections */
 
     section {
       padding: 34px 0;
@@ -321,64 +325,49 @@
       margin-bottom: 18px;
     }
 
-    .section-head h2 {
-      font-size: clamp(1.8rem, 4vw, 3rem);
-    }
-
     .section-head p {
-      max-width: 54ch;
-      color: var(--muted);
+      max-width: 56ch;
       margin: 8px 0 0;
+      color: var(--muted);
     }
 
     .panel {
-      background: rgba(255, 255, 255, 0.72);
       border: 1px solid var(--line);
       border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.75);
       box-shadow: var(--shadow);
     }
 
-    /* Calendar */
-
     .calendar-wrap {
       display: grid;
-      grid-template-columns: 0.86fr 1.14fr;
+      grid-template-columns: 0.85fr 1.15fr;
       gap: 22px;
       align-items: stretch;
     }
 
     .calendar-intro {
+      min-height: 320px;
       padding: 28px;
-      background:
-        linear-gradient(135deg, rgba(111, 127, 89, 0.92), rgba(77, 95, 61, 0.94)),
-        url("images/Kyrkan-sept-2011-062.jpg") center/cover;
       color: white;
-      min-height: 310px;
       display: flex;
       flex-direction: column;
       justify-content: end;
       overflow: hidden;
       position: relative;
+      background:
+        linear-gradient(135deg, rgba(111, 127, 89, 0.9), rgba(77, 95, 61, 0.94)),
+        url("images/Kyrkan-sept-2011-062.jpg") center/cover;
     }
 
-    .calendar-intro::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, transparent, rgba(0,0,0,0.22));
-    }
-
-    .calendar-intro > * {
+    .calendar-intro h2,
+    .calendar-intro p {
       position: relative;
-    }
-
-    .calendar-intro h2 {
-      font-size: clamp(1.8rem, 4vw, 3rem);
+      z-index: 1;
     }
 
     .calendar-intro p {
       margin: 12px 0 0;
-      color: rgba(255,255,255,0.88);
+      color: rgba(255, 255, 255, 0.9);
     }
 
     .event-list {
@@ -394,18 +383,17 @@
       align-items: center;
       padding: 16px;
       border-radius: 20px;
+      border: 1px solid rgba(45, 36, 29, 0.09);
       background: #fffaf5;
-      border: 1px solid rgba(47,36,28,0.09);
     }
 
     .event-date {
-      background: var(--sand);
-      color: var(--text);
-      border-radius: 18px;
       padding: 12px 10px;
+      border-radius: 18px;
+      background: var(--sand);
       text-align: center;
       font-weight: 800;
-      line-height: 1.1;
+      line-height: 1.05;
     }
 
     .event-date span {
@@ -414,8 +402,8 @@
     }
 
     .event-card h3 {
-      font-size: 1.12rem;
       margin-bottom: 4px;
+      font-size: 1.12rem;
     }
 
     .event-card p {
@@ -425,16 +413,14 @@
     }
 
     .event-tag {
+      padding: 7px 10px;
+      border-radius: 999px;
       background: rgba(184, 107, 60, 0.12);
       color: var(--accent-dark);
-      border-radius: 999px;
-      padding: 7px 10px;
       font-size: 0.86rem;
-      font-weight: 750;
+      font-weight: 800;
       white-space: nowrap;
     }
-
-    /* New here */
 
     .new-grid {
       display: grid;
@@ -447,12 +433,774 @@
       display: grid;
       grid-template-columns: 180px 1fr;
       gap: 22px;
-      padding: 22px;
       align-items: center;
+      padding: 22px;
     }
 
     .pastor-card img {
       width: 180px;
       height: 220px;
-      object-fit: cover;
       border-radius: 22px;
+      object-fit: cover;
+      background: var(--sand);
+    }
+
+    .pastor-card p {
+      margin: 12px 0 0;
+      color: var(--muted);
+    }
+
+    .new-points {
+      padding: 24px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .point {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(45, 36, 29, 0.08);
+      background: #fffaf5;
+    }
+
+    .point-icon {
+      width: 34px;
+      height: 34px;
+      flex: 0 0 auto;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: rgba(111, 127, 89, 0.14);
+      color: var(--green-dark);
+      font-weight: 900;
+    }
+
+    .point strong {
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .point span {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .activity-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+    }
+
+    .activity-card {
+      min-height: 300px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: end;
+      background: var(--sand);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .activity-card.large {
+      grid-column: span 2;
+    }
+
+    .activity-card img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2;
+      transition: transform 0.35s ease;
+    }
+
+    .activity-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 20%, rgba(35, 26, 20, 0.78));
+      z-index: -1;
+    }
+
+    .activity-card:hover img {
+      transform: scale(1.04);
+    }
+
+    .activity-text {
+      padding: 22px;
+      color: white;
+    }
+
+    .activity-text h3 {
+      margin-bottom: 6px;
+      font-size: 1.45rem;
+    }
+
+    .activity-text p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    .community-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .community-card {
+      min-height: 210px;
+      padding: 24px;
+    }
+
+    .community-card h3 {
+      margin-bottom: 10px;
+      font-size: 1.3rem;
+    }
+
+    .community-card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .quote-card {
+      background: var(--green);
+      color: white;
+    }
+
+    .quote-card p {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 1.15rem;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr 1fr;
+      grid-auto-rows: 210px;
+      gap: 16px;
+    }
+
+    .gallery-item {
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--sand);
+      box-shadow: var(--shadow);
+    }
+
+    .gallery-item.tall {
+      grid-row: span 2;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .contact-card {
+      padding: 28px;
+    }
+
+    .contact-card p {
+      margin: 10px 0 0;
+      color: var(--muted);
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+      color: var(--muted);
+    }
+
+    .contact-list strong {
+      color: var(--text);
+    }
+
+    .map-card {
+      min-height: 300px;
+      padding: 24px;
+      display: flex;
+      align-items: end;
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, rgba(184, 107, 60, 0.18), rgba(111, 127, 89, 0.18)),
+        url("images/Kyrkan-sept-2011-062.jpg") center/cover;
+    }
+
+    .map-box {
+      width: 100%;
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(255, 249, 241, 0.93);
+      backdrop-filter: blur(8px);
+    }
+
+    .map-box strong {
+      display: block;
+      font-size: 1.15rem;
+    }
+
+    .map-box span {
+      color: var(--muted);
+    }
+
+    footer {
+      padding: 34px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-brand img {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .calendar-wrap,
+      .new-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-content,
+      .hero-image {
+        min-height: auto;
+      }
+
+      .hero-image {
+        min-height: 360px;
+      }
+
+      .activity-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .activity-card,
+      .activity-card.large {
+        grid-column: span 1;
+      }
+
+      .community-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .container {
+        width: min(100% - 26px, var(--max-width));
+      }
+
+      .header-inner {
+        min-height: 70px;
+      }
+
+      .brand img {
+        width: 46px;
+        height: 46px;
+      }
+
+      .brand-text span {
+        display: none;
+      }
+
+      .desktop-nav {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .mobile-nav {
+        display: none;
+        position: absolute;
+        top: 70px;
+        left: 13px;
+        right: 13px;
+        padding: 10px;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        background: #fffaf3;
+        box-shadow: var(--shadow);
+      }
+
+      .mobile-nav a {
+        display: block;
+        padding: 14px;
+        border-radius: 14px;
+        font-weight: 800;
+      }
+
+      .mobile-nav a:hover {
+        background: rgba(184, 107, 60, 0.1);
+      }
+
+      .menu-toggle:checked ~ .mobile-nav {
+        display: block;
+      }
+
+      .menu-toggle:checked + .hamburger span {
+        background: transparent;
+      }
+
+      .menu-toggle:checked + .hamburger span::before {
+        top: 0;
+        transform: rotate(45deg);
+      }
+
+      .menu-toggle:checked + .hamburger span::after {
+        top: 0;
+        transform: rotate(-45deg);
+      }
+
+      .hero {
+        padding-top: 26px;
+      }
+
+      h1 {
+        max-width: 10ch;
+      }
+
+      .hero-content {
+        padding: 26px;
+      }
+
+      .hero-image {
+        min-height: 320px;
+      }
+
+      .section-head {
+        display: block;
+      }
+
+      .event-card {
+        grid-template-columns: 70px 1fr;
+      }
+
+      .event-tag {
+        grid-column: 2;
+        justify-self: start;
+      }
+
+      .pastor-card {
+        grid-template-columns: 1fr;
+      }
+
+      .pastor-card img {
+        width: 100%;
+        height: 280px;
+      }
+
+      .activity-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .activity-card {
+        min-height: 260px;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 230px;
+      }
+
+      .gallery-item.tall {
+        grid-row: span 1;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .event-card {
+        grid-template-columns: 1fr;
+      }
+
+      .event-tag {
+        grid-column: auto;
+        justify-self: start;
+      }
+
+      .event-date {
+        width: 78px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#hem" aria-label="Till startsidan">
+        <img src="images/logo.png" alt="Storegårdskyrkans logotyp">
+        <span class="brand-text">
+          <strong>Storegårdskyrkan</strong>
+          <span>En kyrka i Eksjö</span>
+        </span>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Huvudmeny">
+        <a href="#hem">Hem</a>
+        <a href="#kalender">Kalender</a>
+        <a href="#ny-har">Ny här?</a>
+        <a href="#verksamheter">Verksamheter</a>
+        <a href="#kontakt">Kontakt</a>
+      </nav>
+
+      <input class="menu-toggle" type="checkbox" id="menu-toggle" aria-label="Öppna meny">
+      <label class="hamburger" for="menu-toggle" aria-hidden="true">
+        <span></span>
+      </label>
+
+      <nav class="mobile-nav" aria-label="Mobilmeny">
+        <a href="#hem">Hem</a>
+        <a href="#kalender">Kalender</a>
+        <a href="#ny-har">Ny här?</a>
+        <a href="#verksamheter">Verksamheter</a>
+        <a href="#kontakt">Kontakt</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="hem">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <span class="eyebrow">Storegårdskyrkan i Eksjö</span>
+          <h1>Här finns plats för dig</h1>
+          <p>
+            En varm och välkomnande gemenskap för tro, frågor, vänskap och vardag.
+            Kom som du är – oavsett om du varit här länge, är nyfiken eller bara vill hitta en plats att landa på.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#kalender">Se vad som händer snart</a>
+            <a class="button button-secondary" href="#ny-har">Jag är ny här</a>
+          </div>
+        </div>
+
+        <div class="hero-image">
+          <img src="images/Sommaren_2008_088.jpg" alt="Gemenskap vid Storegårdskyrkan">
+          <div class="hero-quote">
+            <strong>Tro växer bäst i gemenskap.</strong>
+            <span>Gudstjänst, samtal, barn, unga, scout, loppis och vardagsnära mötesplatser.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="kalender">
+      <div class="container">
+        <div class="calendar-wrap">
+          <div class="calendar-intro panel">
+            <h2>Det händer snart</h2>
+            <p>
+              Kalendern är en viktig väg in i församlingens liv. Här ser du några exempel på samlingar och aktiviteter.
+            </p>
+          </div>
+
+          <div class="event-list panel">
+            <article class="event-card">
+              <div class="event-date">Sön <span>10</span></div>
+              <div>
+                <h3>Gudstjänst</h3>
+                <p>Söndag kl. 10.00 · sång, predikan, bön och gemenskap.</p>
+              </div>
+              <span class="event-tag">Alla åldrar</span>
+            </article>
+
+            <article class="event-card">
+              <div class="event-date">Tis <span>12</span></div>
+              <div>
+                <h3>Scout</h3>
+                <p>Äventyr, gemenskap och praktiskt lärande för barn och unga.</p>
+              </div>
+              <span class="event-tag">Barn & unga</span>
+            </article>
+
+            <article class="event-card">
+              <div class="event-date">Tor <span>14</span></div>
+              <div>
+                <h3>Alpha</h3>
+                <p>En plats för samtal om livet, tron och de stora frågorna.</p>
+              </div>
+              <span class="event-tag">Nyfiken?</span>
+            </article>
+
+            <article class="event-card">
+              <div class="event-date">Lör <span>16</span></div>
+              <div>
+                <h3>Loppis</h3>
+                <p>Fynda, möt människor och bidra till församlingens arbete.</p>
+              </div>
+              <span class="event-tag">Gemenskap</span>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="ny-har">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Ny här?</h2>
+            <p>
+              Det ska vara enkelt att ta första steget. Du behöver inte kunna något, prestera något eller ha alla svar.
+            </p>
+          </div>
+        </div>
+
+        <div class="new-grid">
+          <article class="pastor-card panel">
+            <img src="images/pastor.png" alt="Pastor i Storegårdskyrkan">
+            <div>
+              <h3>Välkommen till Storegårdskyrkan</h3>
+              <p>
+                Vi vill vara en kyrka där människor får mötas, växa och upptäcka kristen tro i en trygg och varm gemenskap.
+                Om du är ny är du särskilt välkommen – börja gärna med en gudstjänst eller hör av dig till oss.
+              </p>
+            </div>
+          </article>
+
+          <div class="new-points panel">
+            <div class="point">
+              <div class="point-icon">1</div>
+              <div>
+                <strong>Kom på en gudstjänst</strong>
+                <span>Du kan sitta längst bak, komma med frågor eller bara vara med.</span>
+              </div>
+            </div>
+
+            <div class="point">
+              <div class="point-icon">2</div>
+              <div>
+                <strong>Hitta en gemenskap</strong>
+                <span>Scout, Alpha, barn och unga, loppis och andra samlingar är vägar in.</span>
+              </div>
+            </div>
+
+            <div class="point">
+              <div class="point-icon">3</div>
+              <div>
+                <strong>Hör av dig</strong>
+                <span>Vill du veta mer? Kontakta oss så hjälper vi dig vidare.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="verksamheter">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Verksamheter</h2>
+            <p>
+              Storegårdskyrkan är mer än en söndag. Här finns mötesplatser för olika åldrar, intressen och livssituationer.
+            </p>
+          </div>
+        </div>
+
+        <div class="activity-grid">
+          <article class="activity-card large">
+            <img src="images/scout.jpg" alt="Scoutverksamhet">
+            <div class="activity-text">
+              <h3>Scout</h3>
+              <p>Gemenskap, friluftsliv och upptäckarglädje.</p>
+            </div>
+          </article>
+
+          <article class="activity-card">
+            <img src="images/Julfest-i-kyrkan-12-dec-2010-058.jpg" alt="Barn och unga i kyrkan">
+            <div class="activity-text">
+              <h3>Barn &amp; unga</h3>
+              <p>Trygga miljöer där barn och unga får växa.</p>
+            </div>
+          </article>
+
+          <article class="activity-card">
+            <img src="images/Loppis.jpg" alt="Loppis i Storegårdskyrkan">
+            <div class="activity-text">
+              <h3>Loppis</h3>
+              <p>Fynda, mötas och bidra.</p>
+            </div>
+          </article>
+
+          <article class="activity-card">
+            <img src="images/Sommaren-2010-009.jpg" alt="Gudstjänst och samling">
+            <div class="activity-text">
+              <h3>Gudstjänst</h3>
+              <p>Sång, bön, bibel och gemenskap.</p>
+            </div>
+          </article>
+
+          <article class="activity-card large">
+            <img src="images/Kyrkan-sept-2011-062.jpg" alt="Storegårdskyrkan i Eksjö">
+            <div class="activity-text">
+              <h3>Hitta hit</h3>
+              <p>En kyrka mitt i livet, med öppna dörrar.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="gemenskap">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Gemenskap</h2>
+            <p>
+              Kyrka handlar inte bara om program, utan om människor. Här får tro, vardag och relationer höra ihop.
+            </p>
+          </div>
+        </div>
+
+        <div class="community-grid">
+          <article class="community-card panel">
+            <h3>För dig som söker</h3>
+            <p>Du behöver inte ha färdiga svar. Frågor, tvivel och nyfikenhet får plats här.</p>
+          </article>
+
+          <article class="community-card panel quote-card">
+            <h3>En öppen gemenskap</h3>
+            <p>”Här vill vi att människor ska känna sig sedda, välkomna och hemma.”</p>
+          </article>
+
+          <article class="community-card panel">
+            <h3>För hela familjen</h3>
+            <p>Det finns samlingar och mötesplatser för barn, unga, vuxna och äldre.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="galleri">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Galleri</h2>
+            <p>
+              Några glimtar från kyrkan, gemenskapen och livet runt Storegårdskyrkan.
+            </p>
+          </div>
+        </div>
+
+        <div class="gallery-grid">
+          <div class="gallery-item tall">
+            <img src="images/Sommaren_2008_088.jpg" alt="Gemenskap vid Storegårdskyrkan">
+          </div>
+          <div class="gallery-item">
+            <img src="images/Loppis.jpg" alt="Loppis">
+          </div>
+          <div class="gallery-item">
+            <img src="images/scout.jpg" alt="Scout">
+          </div>
+          <div class="gallery-item">
+            <img src="images/Sommaren-2010-009.jpg" alt="Sommarbild från kyrkan">
+          </div>
+          <div class="gallery-item tall">
+            <img src="images/Kyrkan-sept-2011-062.jpg" alt="Storegårdskyrkan">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="kontakt">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Kontakt</h2>
+            <p>
+              Vill du veta mer, komma i kontakt med någon eller hitta till kyrkan?
+            </p>
+          </div>
+        </div>
+
+        <div class="contact-grid">
+          <article class="contact-card panel">
+            <h3>Hör av dig</h3>
+            <p>
+              Du är välkommen att kontakta Storegårdskyrkan om gudstjänster, verksamheter,
+              frågor om tro eller om du vill hitta en väg in i gemenskapen.
+            </p>
+
+            <div class="contact-list">
+              <div><strong>Plats:</strong> Storegårdskyrkan, Eksjö</div>
+              <div><strong>E-post:</strong> info@storegardskyrkan.se</div>
+              <div><strong>Webb:</strong> storegardskyrkan.se</div>
+            </div>
+          </article>
+
+          <div class="map-card panel">
+            <div class="map-box">
+              <strong>Hitta hit</strong>
+              <span>Kom gärna förbi på gudstjänst, scout, loppis eller annan samling.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <img src="images/logo.png" alt="Storegårdskyrkans logotyp">
+        <span>Storegårdskyrkan i Eksjö</span>
+      </div>
+      <span>En varm gemenskap med plats för dig.</span>
+    </div>
+  </footer>
+
+  <script>
+    const menuToggle = document.getElementById("menu-toggle");
+    const mobileLinks = document.querySelectorAll(".mobile-nav a");
+
+    mobileLinks.forEach(function(link) {
+      link.addEventListener("click", function() {
+        menuToggle.checked = false;
+      });
+    });
+  </script>
+</body>
+
