@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Storegårdskyrkan i Eksjö · Version 0.2</title>
+  <title>Storegårdskyrkan i Eksjö · Version 0.3</title>
   <style>
     :root {
       --cream: #fbf5eb;
@@ -39,6 +39,9 @@
       line-height: 1.5;
     }
 
+    body.menu-open { overflow: hidden; }
+
+
     img {
       display: block;
       width: 100%;
@@ -57,10 +60,41 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      background: rgba(251,245,235,.78);
+      background: rgba(251,245,235,.84);
       backdrop-filter: blur(18px);
       border-bottom: 1px solid var(--line);
     }
+
+    .quickbar {
+      background: var(--brown);
+      color: var(--paper);
+      font-size: .86rem;
+    }
+
+
+    .quickbar-inner {
+      min-height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+
+    .quickbar strong { font-weight: 850; }
+
+
+    .quickbar-links {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      color: rgba(255,250,241,.86);
+      white-space: nowrap;
+    }
+
+
+    .quickbar-links a:hover { color: var(--paper); }
+
 
     .nav {
       min-height: 76px;
@@ -128,6 +162,14 @@
       color: var(--paper);
     }
 
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+
+    .give,
     .login {
       display: inline-flex;
       align-items: center;
@@ -135,15 +177,167 @@
       min-height: 44px;
       padding: 0 17px;
       border-radius: 999px;
-      background: var(--green-deep);
-      color: var(--paper);
       font-weight: 760;
       box-shadow: 0 12px 28px rgba(55,65,50,.18);
+      white-space: nowrap;
     }
 
-    .hero {
-      padding: 24px 0 12px;
+    .give {
+      background: var(--terracotta);
+      color: var(--paper);
     }
+
+    .login {
+      background: var(--green-deep);
+      color: var(--paper);
+    }
+
+
+    .menu-toggle {
+      display: none;
+      width: 46px;
+      height: 46px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      color: var(--brown);
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(56,42,34,.1);
+    }
+
+
+    .menu-toggle span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: currentColor;
+      border-radius: 999px;
+      position: relative;
+    }
+
+
+    .menu-toggle span::before,
+    .menu-toggle span::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 20px;
+      height: 2px;
+      background: currentColor;
+      border-radius: 999px;
+      transition: transform .2s ease, top .2s ease;
+    }
+
+
+    .menu-toggle span::before { top: -7px; }
+    .menu-toggle span::after { top: 7px; }
+
+
+    .menu-toggle[aria-expanded="true"] span { background: transparent; }
+    .menu-toggle[aria-expanded="true"] span::before { top: 0; transform: rotate(45deg); }
+    .menu-toggle[aria-expanded="true"] span::after { top: 0; transform: rotate(-45deg); }
+
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 45;
+      background: rgba(40,34,31,.36);
+      backdrop-filter: blur(5px);
+    }
+
+
+    .mobile-menu[aria-hidden="false"] { display: block; }
+
+
+    .mobile-panel {
+      position: absolute;
+      top: 106px;
+      left: 11px;
+      right: 11px;
+      border-radius: 26px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      border: 1px solid var(--line);
+    }
+
+
+    .mobile-highlight {
+      background: var(--brown);
+      color: var(--paper);
+      border-radius: 21px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+
+    .mobile-highlight strong {
+      display: block;
+      font-size: 1.05rem;
+    }
+
+
+    .mobile-highlight span {
+      display: block;
+      margin-top: 3px;
+      color: rgba(255,250,241,.78);
+      font-size: .9rem;
+    }
+
+
+    .mobile-links {
+      display: grid;
+      gap: 8px;
+    }
+
+
+    .mobile-links a {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 15px;
+      border-radius: 18px;
+      background: #f5eadc;
+      color: var(--brown);
+      font-weight: 820;
+    }
+
+
+    .mobile-links a::after {
+      content: "→";
+      opacity: .55;
+    }
+
+
+    .mobile-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+
+    .mobile-actions a {
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      color: var(--paper);
+      font-weight: 850;
+    }
+
+
+    .mobile-actions a:first-child { background: var(--terracotta); }
+    .mobile-actions a:last-child { background: var(--green-deep); }
+
+
+    .hero { padding: 24px 0 12px; }
+
 
     .hero-frame {
       display: grid;
@@ -156,11 +350,7 @@
       position: relative;
     }
 
-    .hero-photo {
-      position: relative;
-      min-height: 655px;
-    }
-
+    .hero-photo { position: relative; min-height: 655px; }
     .hero-photo::after {
       content: "";
       position: absolute;
@@ -265,11 +455,7 @@
       min-width: 0;
     }
 
-    .side-heading {
-      border-bottom: 1px solid var(--line);
-      padding-bottom: 18px;
-    }
-
+    .side-heading { border-bottom: 1px solid var(--line); padding-bottom: 18px; }
     .eyebrow {
       margin: 0 0 10px;
       color: var(--terracotta-deep);
@@ -279,16 +465,8 @@
       letter-spacing: .1em;
     }
 
-    .side-heading h2 {
-      font-size: clamp(2rem, 2.8vw, 3rem);
-    }
-
-    .event-stack {
-      display: grid;
-      gap: 11px;
-      align-content: start;
-    }
-
+    .side-heading h2 { font-size: clamp(2rem, 2.8vw, 3rem); }
+    .event-stack { display: grid; gap: 11px; align-content: start; }
     .event-card {
       display: grid;
       grid-template-columns: 62px minmax(0,1fr);
@@ -315,24 +493,9 @@
     .date strong { font-size: 1.25rem; }
     .date span { display: block; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
 
-    .event-card h3 {
-      font-size: 1rem;
-      letter-spacing: -.02em;
-    }
-
-    .event-card p {
-      margin: 3px 0 0;
-      color: var(--muted);
-      font-size: .88rem;
-    }
-
-    .filter-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-      margin-top: 4px;
-    }
-
+    .event-card h3 { font-size: 1rem; letter-spacing: -.02em; }
+    .event-card p { margin: 3px 0 0; color: var(--muted); font-size: .88rem; }
+    .filter-row { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 4px; }
     .chip {
       border: 0;
       border-radius: 999px;
@@ -344,15 +507,8 @@
       cursor: pointer;
     }
 
-    .chip.active {
-      background: var(--green-deep);
-      color: var(--paper);
-    }
-
-    .story-band {
-      padding: 14px 0 0;
-    }
-
+    .chip.active { background: var(--green-deep); color: var(--paper); }
+    .story-band { padding: 14px 0 0; }
     .band-grid {
       display: grid;
       grid-template-columns: 1.05fr .95fr;
@@ -453,11 +609,7 @@
       border: 1px solid rgba(255,250,241,.18);
     }
 
-    .mini-facts strong {
-      display: block;
-      font-size: .92rem;
-    }
-
+    .mini-facts strong { display: block; font-size: .92rem; }
     .mini-facts span {
       display: block;
       margin-top: 3px;
@@ -465,10 +617,7 @@
       font-size: .82rem;
     }
 
-    .activities {
-      padding: 14px 0 0;
-    }
-
+    .activities { padding: 14px 0 0; }
     .section-title {
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(260px, 420px);
@@ -520,11 +669,7 @@
       color: var(--paper);
     }
 
-    .tile h3 {
-      color: var(--paper);
-      font-size: clamp(1.35rem, 2.2vw, 2.2rem);
-    }
-
+    .tile h3 { color: var(--paper); font-size: clamp(1.35rem, 2.2vw, 2.2rem); }
     .tile p {
       margin: 6px 0 0;
       color: rgba(255,250,241,.86);
@@ -538,10 +683,7 @@
     .tile.service { grid-column: span 2; grid-row: span 1; }
     .tile.church { grid-column: span 2; grid-row: span 1; }
 
-    .community-strip {
-      padding: 14px 0 0;
-    }
-
+    .community-strip { padding: 14px 0 0; }
     .strip-grid {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -563,27 +705,10 @@
     .strip-card:nth-child(3) { background: var(--sand); color: var(--brown); }
     .strip-card:nth-child(4) { background: var(--terracotta-deep); color: var(--paper); }
 
-    .strip-card h3 {
-      color: inherit;
-      font-size: 1.65rem;
-    }
-
-    .strip-card p {
-      margin: 12px 0 0;
-      color: inherit;
-      opacity: .84;
-    }
-
-    .strip-card span {
-      margin-top: 24px;
-      font-weight: 850;
-      opacity: .76;
-    }
-
-    .gallery-section {
-      padding: 14px 0 0;
-    }
-
+    .strip-card h3 { color: inherit; font-size: 1.65rem; }
+    .strip-card p { margin: 12px 0 0; color: inherit; opacity: .84; }
+    .strip-card span { margin-top: 24px; font-weight: 850; opacity: .76; }
+    .gallery-section { padding: 14px 0 0; }
     .gallery {
       display: grid;
       grid-template-columns: 1.35fr .75fr .9fr;
@@ -602,10 +727,7 @@
     .gallery figure:first-child { grid-row: span 2; }
     .gallery figure:nth-child(4) { grid-column: span 2; }
 
-    .contact {
-      padding: 14px 0 40px;
-    }
-
+    .contact { padding: 14px 0 40px; }
     .contact-card {
       border-radius: 36px;
       background: var(--brown);
@@ -647,11 +769,7 @@
       color: rgba(255,250,241,.9);
     }
 
-    .contact-info strong {
-      color: var(--paper);
-      font-size: 1.15rem;
-    }
-
+    .contact-info strong { color: var(--paper); font-size: 1.15rem; }
     .version-note {
       color: var(--muted);
       text-align: center;
@@ -663,10 +781,7 @@
       .hero-frame,
       .band-grid,
       .contact-card,
-      .section-title {
-        grid-template-columns: 1fr;
-      }
-
+      .section-title { grid-template-columns: 1fr; }
       .hero-frame { min-height: auto; }
       .hero-photo { min-height: 560px; }
       .hero-side { grid-template-rows: auto; }
@@ -685,18 +800,28 @@
       .gallery figure:first-child, .gallery figure:nth-child(4) { grid-column: auto; grid-row: auto; }
     }
 
+    @media (max-width: 820px) {
+      .quickbar { display: none; }
+      .nav { min-height: 68px; }
+      .nav-links, .header-actions .give, .header-actions .login { display: none; }
+      .menu-toggle { display: inline-flex; }
+    }
+
+
     @media (max-width: 720px) {
       .shell { width: min(100% - 22px, 1220px); }
-      .nav { min-height: 68px; }
-      .nav-links, .login { display: none; }
       .brand-logo { width: 48px; height: 48px; border-radius: 15px; }
+      .brand strong { font-size: .96rem; }
+      .brand span { font-size: .76rem; max-width: 210px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .mobile-panel { top: 79px; }
+
 
       .hero { padding-top: 12px; }
       .hero-frame { border-radius: 26px; }
-      .hero-photo { min-height: 480px; }
+      .hero-photo { min-height: 430px; }
       .hero-story { left: 22px; right: 22px; bottom: 22px; }
-      h1 { font-size: clamp(3rem, 14vw, 4.6rem); }
-      .hero-lead { font-size: 1.08rem; }
+      h1 { font-size: clamp(2.8rem, 13vw, 4.1rem); }
+      .hero-lead { font-size: 1.04rem; }
       .hero-actions { flex-direction: column; }
       .btn { width: 100%; }
       .hero-side { padding: 20px; }
@@ -709,45 +834,88 @@
       .tile,
       .strip-card,
       .contact-card,
-      .gallery figure {
-        border-radius: 23px;
-      }
-
+      .gallery figure { border-radius: 23px; }
       .pastor-panel .pastor-image { height: 340px; }
       .pastor-copy, .living-panel, .contact-copy, .contact-info { padding: 22px; }
       .mini-facts { grid-template-columns: 1fr; }
       .mosaic, .strip-grid, .gallery { grid-template-columns: 1fr; }
       .mosaic { grid-auto-rows: 255px; }
       .gallery { grid-template-rows: repeat(5, 230px); }
+      .mobile-actions { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
   <header class="topbar">
+    <div class="quickbar">
+      <div class="shell quickbar-inner">
+        <span><strong>Nästa gudstjänst:</strong> söndag kl. 10.00</span>
+        <nav class="quickbar-links" aria-label="Snabblänkar">
+          <a href="#calendar">Kalender</a>
+          <a href="#contact">Hitta hit</a>
+          <a href="#give">Ge en gåva</a>
+        </nav>
+      </div>
+    </div>
+
+
     <nav class="shell nav" aria-label="Huvudnavigering">
       <a class="brand" href="#top" aria-label="Till startsidan">
-        <span class="brand-logo"><img src="images/logo.png" alt="Storegårdskyrkans logotyp"></span>
+        <span class="brand-logo"><img src="images/logo.png" alt="Storegårdskyrkans logotyp"></span>
         <span>
           <strong>Storegårdskyrkan</strong>
           <span>Eksjö · tro, gemenskap och vardag</span>
         </span>
       </a>
+
+
       <div class="nav-links" aria-label="Navigering">
         <a class="active" href="#top">Hem</a>
         <a href="#calendar">Kalender</a>
+        <a href="#activities">Gudstjänst</a>
+        <a href="#activities">Scout</a>
         <a href="#new">Ny här?</a>
-        <a href="#activities">Verksamheter</a>
         <a href="#contact">Kontakt</a>
       </div>
-      <a class="login" href="#login">Logga in</a>
+
+
+      <div class="header-actions">
+        <a class="give" href="#give">Ge en gåva</a>
+        <a class="login" href="#login">Logga in</a>
+        <button class="menu-toggle" type="button" aria-label="Öppna meny" aria-expanded="false" aria-controls="mobileMenu">
+          <span></span>
+        </button>
+      </div>
     </nav>
   </header>
+
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <div class="mobile-panel" role="dialog" aria-label="Mobilmeny">
+      <div class="mobile-highlight">
+        <strong>Nästa gudstjänst</strong>
+        <span>Söndag kl. 10.00 · Storegårdskyrkan i Eksjö</span>
+      </div>
+      <nav class="mobile-links" aria-label="Mobilnavigering">
+        <a href="#calendar">Kalender</a>
+        <a href="#activities">Gudstjänst</a>
+        <a href="#activities">Scout</a>
+        <a href="#activities">Barn & unga</a>
+        <a href="#new">Ny här?</a>
+        <a href="#contact">Kontakt och hitta hit</a>
+      </nav>
+      <div class="mobile-actions">
+        <a href="#give">Ge en gåva</a>
+        <a href="#login">Logga in</a>
+      </div>
+    </div>
+  </div>
+
 
   <main id="top">
     <section class="shell hero" aria-labelledby="hero-title">
       <div class="hero-frame">
         <div class="hero-photo">
-          <img src="images/Sommaren_2008_088.jpg" alt="Storegårdskyrkan i sommarmiljö">
+          <img src="images/Sommaren_2008_088.jpg" alt="Storegårdskyrkan i sommarmiljö">
           <div class="hero-story">
             <span class="kicker">En kyrka mitt i livet</span>
             <h1 id="hero-title">Här finns plats för dig</h1>
@@ -800,7 +968,7 @@
     <section id="new" class="shell story-band" aria-labelledby="new-title">
       <div class="band-grid">
         <article class="pastor-panel">
-          <div class="pastor-image"><img src="images/pastor.png" alt="Porträttbild vid välkomsthälsning"></div>
+          <div class="pastor-image"><img src="images/pastor.png" alt="Porträttbild vid välkomsthälsning"></div>
           <div class="pastor-copy">
             <p class="eyebrow">Ny här?</p>
             <h2 id="new-title">Kom som du är</h2>
@@ -830,28 +998,28 @@
           <p class="eyebrow">Verksamheter</p>
           <h2 id="activities-title">Saker vi gör tillsammans</h2>
         </div>
-        <p>Version 0.2 gör bilderna större och låter verksamheterna kännas som miljöer att kliva in i, snarare än som informationskort.</p>
+        <p>Version 0.3 har mobilmeny och bildvägarna är uppdaterade till images-mappen.</p>
       </div>
 
       <div class="mosaic">
         <a class="tile scout" href="#">
-          <img src="images/scout.jpg" alt="Scoutverksamhet">
+          <img src="images/scout.jpg" alt="Scoutverksamhet">
           <div class="tile-content"><h3>Scout</h3><p>Äventyr, praktiskt lärande och gemenskap för barn och unga.</p></div>
         </a>
         <a class="tile loppis" href="#">
-          <img src="images/Loppis.jpg" alt="Loppisverksamhet">
+          <img src="images/Loppis.jpg" alt="Loppisverksamhet">
           <div class="tile-content"><h3>Loppis</h3><p>Fynd, fika och samtal.</p></div>
         </a>
         <a class="tile children" href="#">
-          <img src="images/Sommaren-2010-009.jpg" alt="Barn och unga i gemenskap">
+          <img src="images/Sommaren-2010-009.jpg" alt="Barn och unga i gemenskap">
           <div class="tile-content"><h3>Barn & unga</h3><p>Platser där unga får växa.</p></div>
         </a>
         <a class="tile service" href="#">
-          <img src="images/Julfest-i-kyrkan-12-dec-2010-058.jpg" alt="Samling i kyrkan">
+          <img src="images/Julfest-i-kyrkan-12-dec-2010-058.jpg" alt="Samling i kyrkan">
           <div class="tile-content"><h3>Gudstjänst</h3><p>Söndagar kl. 10.00.</p></div>
         </a>
         <a class="tile church" href="#">
-          <img src="images/Kyrkan-sept-2011-062.jpg" alt="Storegårdskyrkan exteriört">
+          <img src="images/Kyrkan-sept-2011-062.jpg" alt="Storegårdskyrkan exteriört">
           <div class="tile-content"><h3>Hitta hit</h3><p>En kyrka mitt i Eksjö.</p></div>
         </a>
       </div>
@@ -882,11 +1050,11 @@
         <p>Galleri och mosaik ger startsidan mer rytm och mindre känsla av staplade block.</p>
       </div>
       <div class="gallery">
-        <figure><img src="images/Kyrkan-sept-2011-062.jpg" alt="Storegårdskyrkans byggnad"></figure>
-        <figure><img src="images/Sommaren_2008_088.jpg" alt="Sommarbild från kyrkan"></figure>
-        <figure><img src="images/Sommaren-2010-009.jpg" alt="Aktivitet och gemenskap"></figure>
-        <figure><img src="images/Julfest-i-kyrkan-12-dec-2010-058.jpg" alt="Samling i kyrkan"></figure>
-        <figure><img src="images/Loppis.jpg" alt="Loppis"></figure>
+        <figure><img src="images/Kyrkan-sept-2011-062.jpg" alt="Storegårdskyrkans byggnad"></figure>
+        <figure><img src="images/Sommaren_2008_088.jpg" alt="Sommarbild från kyrkan"></figure>
+        <figure><img src="images/Sommaren-2010-009.jpg" alt="Aktivitet och gemenskap"></figure>
+        <figure><img src="images/Julfest-i-kyrkan-12-dec-2010-058.jpg" alt="Samling i kyrkan"></figure>
+        <figure><img src="images/Loppis.jpg" alt="Loppis"></figure>
       </div>
     </section>
 
@@ -904,14 +1072,16 @@
           <span>Kontaktuppgifter läggs in här</span>
         </div>
       </div>
-      <p class="version-note">Förhandsversion 0.2 · mer bilddriven, tätare och mer kalendercentrerad startsida</p>
+      <p class="version-note">Förhandsversion 0.3 · mobilmeny, snabblänkar och bildvägar till images/</p>
     </section>
   </main>
 
   <script>
     const chips = document.querySelectorAll('.chip');
     const cards = document.querySelectorAll('.event-card');
-
+    const menuButton = document.querySelector('.menu-toggle');
+    const mobileMenu = document.querySelector('#mobileMenu');
+    const mobileLinks = document.querySelectorAll('.mobile-menu a');
     chips.forEach(chip => {
       chip.addEventListener('click', () => {
         const selected = chip.dataset.filter;
@@ -922,6 +1092,28 @@
         });
       });
     });
+
+
+    function setMenu(open) {
+      menuButton.setAttribute('aria-expanded', open ? 'true' : 'false');
+      mobileMenu.setAttribute('aria-hidden', open ? 'false' : 'true');
+      document.body.classList.toggle('menu-open', open);
+    }
+
+
+    menuButton.addEventListener('click', () => {
+      const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
+      setMenu(!isOpen);
+    });
+
+
+    mobileMenu.addEventListener('click', event => {
+      if (event.target === mobileMenu) setMenu(false);
+    });
+
+
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => setMenu(false));
+    });
   </script>
 </body>
-</html>
