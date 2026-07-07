@@ -8,9 +8,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Visa att workflow fungerar
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: |
+            {
+              "clientId":"${{ secrets.AZURE_CLIENT_ID }}",
+              "clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}",
+              "tenantId":"${{ secrets.AZURE_TENANT_ID }}"
+            }
+          allow-no-subscriptions: true
+
+      - name: Test Azure CLI
         run: |
-          echo "Workflow fungerar"
-          echo "Client ID finns: ${{ secrets.AZURE_CLIENT_ID != '' }}"
-          echo "Tenant ID finns: ${{ secrets.AZURE_TENANT_ID != '' }}"
-          echo "Client Secret finns: ${{ secrets.AZURE_CLIENT_SECRET != '' }}"
+          az account show
