@@ -735,66 +735,78 @@
       ALP: { label: "Alpha", className: "alp" },
       LOP: { label: "Loppis", className: "lop" }
     };
+// Reservdata om events.json inte kan laddas
+const fallbackEvents = [
+  {
+    title: "Gudstjänst på campingen",
+    start: "2026-07-05T10:00:00",
+    end: "2026-07-05T11:15:00",
+    location: "Campingen",
+    categories: ["GTJ"]
+  }
+];
 
-    // Demo-data. Senare kan denna lista ersättas av data från Outlook/Power Automate.
-    const events = [
-      {
-        title: "Gudstjänst på campingen",
-        start: "2026-07-05T10:00:00",
-        end: "2026-07-05T11:15:00",
-        location: "Campingen",
-        categories: ["GTJ"]
-      },
-      {
-        title: "UV-kväll",
-        start: "2026-07-08T18:00:00",
-        end: "2026-07-08T19:30:00",
-        location: "Storegårdskyrkan",
-        categories: ["SBU", "UV"]
-      },
-      {
-        title: "Alpha-kväll",
-        start: "2026-07-10T18:30:00",
-        end: "2026-07-10T20:30:00",
-        location: "Storegårdskyrkan",
-        categories: ["ALP"]
-      },
-      {
-        title: "Konfirmandträff",
-        start: "2026-07-13T17:30:00",
-        end: "2026-07-13T19:00:00",
-        location: "Ungdomsrummet",
-        categories: ["KON", "SBU"]
-      },
-      {
-        title: "Loppis öppet",
-        start: "2026-07-18T10:00:00",
-        end: "2026-07-18T13:00:00",
-        location: "Loppisladan",
-        categories: ["LOP"]
-      },
-      {
-        title: "Familjegudstjänst",
-        start: "2026-07-26T10:00:00",
-        end: "2026-07-26T11:15:00",
-        location: "Storegårdskyrkan",
-        categories: ["GTJ", "SBU"]
-      },
-      {
-        title: "UV-scout: Terminstart",
-        start: "2026-08-19T18:00:00",
-        end: "2026-08-19T19:30:00",
-        location: "Storegårdskyrkan",
-        categories: ["SBU", "UV"]
-      },
-      {
-        title: "Söndagsgudstjänst",
-        start: "2026-08-23T10:00:00",
-        end: "2026-08-23T11:15:00",
-        location: "Storegårdskyrkan",
-        categories: ["GTJ"]
-      }
-    ];
+let events = [];
+
+async function loadEvents() {
+
+  try {
+
+    const response =
+      await fetch("events.json?t=" + Date.now());
+
+    if (!response.ok) {
+      throw new Error(
+        "Kunde inte läsa events.json"
+      );
+    }
+
+    events = await response.json();
+
+    if (!Array.isArray(events)) {
+      throw new Error(
+        "Felaktigt format i events.json"
+      );
+    }
+
+    currentMonth = new Date();
+    currentMonth.setDate(1);
+
+    if (events.length > 0) {
+
+      const firstEvent =
+        new Date(events[0].start);
+
+      currentMonth = new Date(
+        firstEvent.getFullYear(),
+        firstEvent.getMonth(),
+        1
+      );
+    }
+
+    renderAll();
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+    events = fallbackEvents;
+
+    document.getElementById(
+      "empty-state"
+    ).style.display = "block";
+
+    document.getElementById(
+      "empty-state"
+    ).innerHTML =
+      "Kunde inte läsa kalenderdata. Visar reservdata.";
+
+    renderAll();
+  }
+}
+ 
+
 
     const menuToggle = document.getElementById("menu-toggle");
     const mobileLinks = document.querySelectorAll(".mobile-nav a");
@@ -968,7 +980,7 @@
       renderAll();
     });
 
-    renderAll();
+   loadEvents();
   </script>
 </body>
 </html>
