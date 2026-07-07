@@ -19,6 +19,10 @@ jobs:
             }
           allow-no-subscriptions: true
 
-      - name: Test Azure CLI
+      - name: Hämta kalender från Graph
         run: |
-          az account show
+          TOKEN=$(az account get-access-token --resource-type ms-graph --query accessToken -o tsv)
+
+          curl \
+            -H "Authorization: Bearer $TOKEN" \
+            "https://graph.microsoft.com/v1.0/groups/8ae31d92-e3ad-4210-ae24-8681fb858c4d/calendar/events?\$select=subject,start,end,location,categories"
