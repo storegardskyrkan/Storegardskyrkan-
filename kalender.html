@@ -516,7 +516,72 @@
     .badge.kon { color: var(--cat-kon); }
     .badge.alp { color: var(--cat-alp); }
     .badge.lop { color: #8d731e; }
+.event-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+}
 
+.event-modal.is-open {
+  display: block;
+}
+
+.event-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(45, 36, 29, 0.45);
+}
+
+.event-modal-card {
+  position: relative;
+  width: min(680px, calc(100% - 32px));
+  max-height: calc(100vh - 64px);
+  overflow: auto;
+  margin: 32px auto;
+  padding: 24px;
+  border-radius: 24px;
+  background: #fffaf5;
+  box-shadow: 0 24px 70px rgba(45, 36, 29, 0.35);
+}
+
+.event-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  border: 0;
+  background: rgba(184, 107, 60, 0.12);
+  border-radius: 999px;
+  width: 38px;
+  height: 38px;
+  cursor: pointer;
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--accent-dark);
+}
+
+.event-modal-title {
+  padding-right: 48px;
+  margin-bottom: 10px;
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+}
+
+.event-modal-meta {
+  color: var(--muted);
+  margin: 0 0 16px;
+}
+
+.event-modal-description {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  white-space: pre-line;
+  color: var(--text);
+}
+
+body.modal-open {
+  overflow: hidden;
+}
     .empty-state {
       display: none;
       padding: 24px;
@@ -714,6 +779,24 @@
         <div class="empty-state" id="empty-state">Det finns inga aktiviteter som matchar valt filter i den här demo-datan.</div>
       </div>
     </section>
+ <div class="event-modal" id="event-modal" aria-hidden="true">
+  <div class="event-modal-backdrop" data-close-modal></div>
+
+  <section class="event-modal-card" role="dialog" aria-modal="true" aria-labelledby="event-modal-title">
+    <button class="event-modal-close" type="button" data-close-modal aria-label="Stäng">
+      ×
+    </button>
+
+    <h2 class="event-modal-title" id="event-modal-title"></h2>
+
+    <p class="event-modal-meta" id="event-modal-time"></p>
+    <p class="event-modal-meta" id="event-modal-location"></p>
+
+    <div class="badge-row" id="event-modal-categories"></div>
+
+    <div class="event-modal-description" id="event-modal-description"></div>
+  </section>
+</div>
   </main>
 
   <footer>
@@ -822,6 +905,13 @@ async function loadEvents() {
     const monthTitle = document.getElementById("month-title");
     const filterStatus = document.getElementById("filter-status");
     const filterButtons = document.querySelectorAll(".filter-btn");
+    const eventModal = document.getElementById("event-modal");
+    const eventModalTitle = document.getElementById("event-modal-title");
+    const eventModalTime = document.getElementById("event-modal-time");
+    const eventModalLocation = document.getElementById("event-modal-location");
+    const eventModalCategories = document.getElementById("event-modal-categories");
+    const eventModalDescription = document.getElementById("event-modal-description");
+    const closeModalButtons = document.querySelectorAll("[data-close-modal]");
 
     let activeCategory = "all";
     let currentMonth = new Date(2026, 6, 1); // Juli 2026 för demo. Byt till new Date() när skarp data används.
@@ -843,6 +933,56 @@ async function loadEvents() {
       const endText = end.toLocaleTimeString("sv-SE", { hour: "2-digit", minute: "2-digit" });
       return `${startText}–${endText}`;
     }
+    function formatFullDate(value) {
+  const date = parseDate(value);
+
+  return date.toLocaleDateString("sv-SE", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  });
+}
+
+function openEventModal(event) {
+  eventModalTitle.textContent = event.title;
+
+  eventModalTime.textContent =
+    formatFullDate(event.start) + " · " + formatTimeRange(event);
+
+  eventModalLocation.textContent =
+    event.location ? "Plats: " + event.location : "Plats ej angiven";
+
+  eventModalCategories.innerHTML = "";
+
+  event.categories.forEach(function(cat) {
+    const meta = categoryMeta[cat];
+
+    if (!meta) {
+      return;
+    }
+
+    const badge = document.createElement("span");
+    badge.className = "badge " + meta.className;
+    badge.textContent = meta.label;
+    eventModalCategories.appendChild(badge);
+  });
+
+  eventModalDescription.textContent =
+    event.description && event.description.trim()
+      ? event.description
+      : "Ingen mer information finns angiven.";
+
+  eventModal.classList.add("is-open");
+  eventModal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+}
+
+function closeEventModal() {
+  eventModal.classList.remove("is-open");
+  eventModal.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("modal-open");
+}
 
     function filteredEvents() {
       if (activeCategory === "all") {
