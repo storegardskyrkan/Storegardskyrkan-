@@ -25,10 +25,37 @@ jobs:
             }
           allow-no-subscriptions: true
 
-      - name: Hämta kalenderdata
+      - name: Hämta kalenderdata från Graph
         run: |
           TOKEN=$(az account get-access-token --resource-type ms-graph --query accessToken -o tsv)
 
           curl \
             -H "Authorization: Bearer $TOKEN" \
-            'https://graph.microsoft.com/v1.0/users/webbkalender@storegardskyrkan.se/calendar/events?$select=subject,start,end,location,categories'
+            'https://graph.microsoft.com/v1.0/users/webbkalender@storegardskyrkan.se/calendar/events?$select=subject,start,end,location,categories' \
+            > graph-response.json
+
+      - name: Skapa events.json
+        run: |
+          python3 << 'EOF'
+          import json
+
+          with open("graph-response.json", encoding="utf-8") as f:
+              data = json.load(f)
+
+          events = []
+
+          for item in data["value"]:
+              events.append({
+                  "title": item.get("subject", ""),
+                  "start": item["start"]["dateTime"],
+                  "end": item["end"]["dateTime"],
+                  "location": item.get("location", {}).get("displayName", ""),
+                  "categories": item.get("categories", [])
+              })
+
+          with open("events.json", "w", encoding="utf-8") as f:
+              json.dump(events, f, ensure_ascii=False, indent=2)
+
+          print("events.json skapad:")
+          print(open("events.json", encoding="utf-8").read())
+          EOF
