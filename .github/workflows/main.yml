@@ -25,4 +25,4 @@ jobs:
 
           curl \
             -H "Authorization: Bearer $TOKEN" \
-          https://graph.microsoft.com/v1.0/groups/8ae31d92-e3ad-4210-ae24-8681fb858c4d/calendar
+         https://graph.microsoft.com/v1.0/groups/8ae31d92-e3ad-4210-ae24-8681fb858c4d/events
