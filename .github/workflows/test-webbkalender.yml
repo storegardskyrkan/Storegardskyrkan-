@@ -1,28 +1,72 @@
-name: Test Webbkalender Graph
+name: Uppdatera webbkalender
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 * * * *"
 
-jobs:
-  test-webbkalender:
-    runs-on: ubuntu-latest
+permissions:
+  contents: write
+*jobs:
+  update-calendar:
+    runs-*n: ubuntu-latest
 
     steps:
-      - name: Azure Login
-        uses: azure/login@v2
+     *- name: Hämta repo
+        uses: a*tions/checkout@v4
+
+      - name: A*ure Login
+        uses: azure/logi*@v2
         with:
-          creds: |
+          creds:*|
             {
-              "clientId":"${{ secrets.AZURE_CLIENT_ID }}",
-              "clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}",
-              "tenantId":"${{ secrets.AZURE_TENANT_ID }}"
-            }
-          allow-no-subscriptions: true
+              "cli*ntId":"${{ secrets.AZURE_CLIENT_ID*}}",
+              "clientSecret":*${{ secrets.AZURE_CLIENT_SECRET }}*,
+              "tenantId":"${{ se*rets.AZURE_TENANT_ID }}"
+         *  }
+          allow-no-subscriptio*s: true
 
-      - name: Hämta webbkalender från Graph
+      - name: Hämta kalen*erdata och skapa events.json
+     *  run: |
+          set -e
+
+       *  TOKEN=$(az account get-access-to*en --resource-type ms-graph --quer* accessToken -o tsv)
+
+          ST*RT=$(date -u +"%Y-%m-%dT00:00:00Z"*
+          END=$(date -u -d "+400 *ays" +"%Y-%m-%dT23:59:59Z")
+
+     *    URL="https://graph.microsoft.com/v1.0/users/webbkalender@storegardskyrkan.se/calendar/calendarView?startDateTime=${START}&endDateTime=${END}&\$select=subject,start,end,location,categories,isCancelled&\$orderby=start/dateTime&\$top=1000"
+
+  *       curl --fail --silent --show*error \
+            -H "Authorizat*on: Bearer $TOKEN" \
+            -* 'Prefer: outlook.timezone="Europe*Stockholm"' \
+            "$URL" >*graph-response.json
+
+          jq *[ 
+            .value[] 
+            | select(.isCancelled != true)
+ *          | {
+                titl*: .subject,
+                start:*.start.dateTime,
+                e*d: .end.dateTime,
+                *ocation: (.location.displayName //*""),
+                categories: (*categories // [])
+              }
+*         ]' graph-response.json > *vents.json
+
+          echo "Skapad*events.json:"
+          cat events*json
+
+      - name: Spara events.j*on till repo
         run: |
-          TOKEN=$(az account get-access-token --resource-type ms-graph --query accessToken -o tsv)
+      *   git config user.name "github-ac*ions[bot]"
+          git config us*r.email "github-actions[bot]@users*noreply.github.com"
 
-          curl \
-            -H "Authorization: Bearer $TOKEN" \
-            'https://graph.microsoft.com/v1.0/users/webbkalender@storegardskyrkan.se/calendar/events?$select=subject,start,end,location,categories'
+          git*add events.json
+
+          if git *iff --staged --quiet; then
+       *    echo "Inga ändringar i events.*son"
+          else
+            gi* commit -m "Uppdatera events.json *rån webbkalender"
+            git *ush
+          fi
