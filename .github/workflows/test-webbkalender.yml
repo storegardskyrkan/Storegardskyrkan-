@@ -1,0 +1,28 @@
+name: Test Webbkalender Graph
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-webbkalender:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: |
+            {
+              "clientId":"${{ secrets.AZURE_CLIENT_ID }}",
+              "clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}",
+              "tenantId":"${{ secrets.AZURE_TENANT_ID }}"
+            }
+          allow-no-subscriptions: true
+
+      - name: Hämta webbkalender från Graph
+        run: |
+          TOKEN=$(az account get-access-token --resource-type ms-graph --query accessToken -o tsv)
+
+          curl \
+            -H "Authorization: Bearer $TOKEN" \
+            'https://graph.microsoft.com/v1.0/users/webbkalender@storegardskyrkan.se/calendar/events?$select=subject,start,end,location,categories'
