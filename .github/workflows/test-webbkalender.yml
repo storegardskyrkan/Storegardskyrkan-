@@ -2,6 +2,8 @@ name: Uppdatera webbkalender
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 * * * *"
 
 permissions:
   contents: write
@@ -55,7 +57,18 @@ jobs:
 
           with open("events.json", "w", encoding="utf-8") as f:
               json.dump(events, f, ensure_ascii=False, indent=2)
-
-          print("events.json skapad:")
-          print(open("events.json", encoding="utf-8").read())
           EOF
+
+      - name: Commit events.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add events.json
+
+          if git diff --staged --quiet; then
+            echo "Inga ändringar"
+          else
+            git commit -m "Uppdatera events.json"
+            git push
+          fi
