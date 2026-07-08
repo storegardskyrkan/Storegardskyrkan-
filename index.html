@@ -935,16 +935,41 @@
               Kalendern är en viktig väg in i församlingens liv. Här ser du några exempel på samlingar och aktiviteter.
             </p>
           </div>
-<div class="event-list panel" id="*ome-event-list">
-  <article class=*event-card">
-    <div class="event*date">...</div>
-    <div>
-      <h*>Laddar aktiviteter...</h3>
-      *p>Hämtar kommande aktiviteter från*kalendern.</p>
-    </div>
-    <spa* class="event-tag">Kalender</span>*  </article>
-</div>
 
+          <div class="event-list panel">
+            <article class="event-card">
+              <div class="event-date">Sön <span>10</span></div>
+              <div>
+                <h3>Gudstjänst</h3>
+                <p>Söndag kl. 10.00 · sång, predikan, bön och gemenskap.</p>
+              </div>
+              <span class="event-tag">Alla åldrar</span>
+            </article>
+
+            <article class="event-card">
+              <div class="event-date">Tis <span>12</span></div>
+              <div>
+                <h3>Scout</h3>
+                <p>Äventyr, gemenskap och praktiskt lärande för barn och unga.</p>
+              </div>
+              <span class="event-tag">Barn & unga</span>
+            </article>
+
+            <article class="event-card">
+              <div class="event-date">Tor <span>14</span></div>
+              <div>
+                <h3>Alpha</h3>
+                <p>En plats för samtal om livet, tron och de stora frågorna.</p>
+              </div>
+              <span class="event-tag">Nyfiken?</span>
+            </article>
+
+            <article class="event-card">
+              <div class="event-date">Lör <span>16</span></div>
+              <div>
+                <h3>Loppis</h3>
+                <p>Fynda, möt människor och bidra till församlingens arbete.</p>
+              </div>
               <span class="event-tag">Gemenskap</span>
             </article>
           </div>
@@ -1176,155 +1201,5 @@
         menuToggle.checked = false;
       });
     });
-  const*homeEventList = document.getElemen*ById("home-event-list");
-
-const ho*eCategoryLabels = {
-  GTJ: "Gudstj*nst",
-  SBU: "Barn & unga",
-  UV: *UV-scout",
-  KON: "Konfirmation",
-* ALP: "Alpha",
-  LOP: "Loppis"
-};
-*function escapeHtml(value) {
-  ret*rn String(value || "")
-    .replac*All("&", "&amp;")
-    .replaceAll(*<", "&lt;")
-    .replaceAll(">", "*gt;")
-    .replaceAll('"', "&quot;*)
-    .replaceAll("'", "&#039;");
-*
-
-function parseEventDate(value) {*  return new Date(value);
-}
-
-funct*on formatHomeDate(value) {
-  const*date = parseEventDate(value);
-  co*st weekday = date.toLocaleDateStri*g("sv-SE", { weekday: "short" }).r*place(".", "");
-  const day = date*getDate();
-
-  return {
-    weekday* weekday,
-    day: day
-  };
-}
-
-fun*tion formatHomeTimeRange(event) {
-* const start = parseEventDate(even*.start);
-  const end = parseEventD*te(event.end);
-
-  const startText * start.toLocaleTimeString("sv-SE",*{
-    hour: "2-digit",
-    minute:*"2-digit"
-  });
-
-  const endText =*end.toLocaleTimeString("sv-SE", {
-*   hour: "2-digit",
-    minute: "2*digit"
-  });
-
-  return `${startTex*}–${endText}`;
-}
-
-async function l*adHomeEvents() {
-  try {
-    const*response = await fetch("events.jso*?t=" + Date.now());
-
-    if (!resp*nse.ok) {
-      throw new Error("K*nde inte läsa events.json");
-    }*
-    const events = await response*json();
-
-    if (!Array.isArray(ev*nts)) {
-      throw new Error("Fel*ktigt format i events.json");
-    *
-
-    const now = new Date();
-
-   *const upcomingEvents = events
-    * .filter(function(event) {
-       *return parseEventDate(event.start)*>= now;
-      })
-      .sort(funct*on(a, b) {
-        return parseEve*tDate(a.start) - parseEventDate(b.*tart);
-      })
-      .slice(0, 4)*
-
-    renderHomeEvents(upcomingEve*ts);
-  }
-  catch (error) {
-    con*ole.error(error);
-
-    homeEventLi*t.innerHTML = `
-      <article cla*s="event-card">
-        <div class*"event-date">!</div>
-        <div>*          <h3>Kunde inte läsa kale*dern</h3>
-          <p>Försök gärna igen senare eller gå till hela kalendern.</p>
-        </div>
-        <span class="event-tag">Kalender</span>
-      </article>
-    `;
-  }
-}
-
-function renderHomeEvents(events) {
-  if (!events.length) {
-    homeEventList.innerHTML = `
-      <article class="event-card">
-        <div class="event-date">–</div>
-        <div>
-          <h3>Inga kommande aktiviteter just nu</h3>
-          <p>Besök gärna kalendern igen senare.</p>
-        </div>
-        <span class="event-tag">Kalender</span>
-      </article>
-    `;
-
-    return;
-  }
-
-  homeEventList.innerHTML = "";
-
-  events.forEach(function(event) {
-    const date = formatHomeDate(event.start);
-    const primaryCategory = event.categories && event.categories.length
-      ? event.categories[0]
-      : "";
-
-    const tag = homeCategoryLabels[primaryCategory] || "Aktivitet";
-    const location = event.location ? " · " + event.location : "";
-
-    const card = document.createElement("article");
-    card.className = "event-card";
-
-    card.innerHTML = `
-      <div class="event-date">${escapeHtml(date.weekday)} <span>${escapeHtml(date.day)}</span></div>
-      <div>
-        <h3>${escapeHtml(event.title)}</h3>
-        <p>${escapeHtml(formatHomeTimeRange(event))}${escapeHtml(location)}</p>
-      </div>
-      <span class="event-tag">${escapeHtml(tag)}</span>
-    `;
-
-    homeEventList.appendChild(card);
-  });
-
-  const linkCard = document.createElement("article");
-  linkCard.className = "event-card";
-
-  linkCard.innerHTML = `
-    <div class="event-date">+</div>
-    <div>
-      <h3>Se hela kalendern</h3>
-      <p>Visa alla aktiviteter, filter och mer information.</p>
-    </div>
-    <a class="event-tag" href="kalender.html">Öppna kalender</a>
-  `;
-
-  homeEventList.appendChild(linkCard);
-}
-
-loadHomeEvents();  
   </script>
 </body>
-
