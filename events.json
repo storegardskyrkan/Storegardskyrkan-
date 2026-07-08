@@ -1,5 +1,15 @@
 [
   {
+    "title": "Morgonsamling",
+    "start": "2026-07-09T10:00:00.0000000",
+    "end": "2026-07-09T10:30:00.0000000",
+    "location": "Campingen",
+    "categories": [
+      "UV"
+    ],
+    "description": "Vi äter nåt gott"
+  },
+  {
     "title": "Test gudstjänst",
     "start": "2026-07-08T11:00:00.0000000",
     "end": "2026-07-08T12:00:00.0000000",
