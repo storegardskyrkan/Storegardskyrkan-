@@ -1045,10 +1045,19 @@ function closeEventModal() {
           .forEach(function(event) {
             const cat = primaryCategory(event);
             const pill = document.createElement("a");
-            pill.href = "#event-list";
-            pill.className = `event-pill ${categoryMeta[cat].className}`;
-            pill.innerHTML = `<small>${formatTimeRange(event)}</small> ${event.title}`;
-            cell.appendChild(pill);
+
+pill.href = "#";
+pill.className = `event-pill ${categoryMeta[cat].className}`;
+pill.innerHTML = `<small>${formatTimeRange(event)}</small> ${event.title}`;
+
+pill.addEventListener("click", function(e) {
+  e.preventDefault();
+  openEventModal(event);
+});
+
+cell.appendChild(pill);
+
+            
           });
 
         calendarGrid.appendChild(cell);
@@ -1085,7 +1094,19 @@ function closeEventModal() {
             <div class="badge-row">${badges}</div>
           </div>
         `;
+      card.setAttribute("role", "button");
+card.setAttribute("tabindex", "0");
 
+card.addEventListener("click", function() {
+  openEventModal(event);
+});
+
+card.addEventListener("keydown", function(e) {
+  if (e.key === "Enter" || e.key === " ") {
+    e.preventDefault();
+    openEventModal(event);
+  }
+});
         eventList.appendChild(card);
       });
     }
@@ -1094,7 +1115,15 @@ function closeEventModal() {
       renderCalendar();
       renderList();
     }
+    closeModalButtons.forEach(function(button) {
+  button.addEventListener("click", closeEventModal);
+});
 
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Escape" && eventModal.classList.contains("is-open")) {
+    closeEventModal();
+  }
+});
     filterButtons.forEach(function(button) {
       button.addEventListener("click", function() {
         activeCategory = button.dataset.category;
