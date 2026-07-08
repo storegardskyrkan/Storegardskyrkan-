@@ -33,7 +33,7 @@ jobs:
 
           curl \
             -H "Authorization: Bearer $TOKEN" \
-            'https://graph.microsoft.com/v1.0/users/webbkalender@storegardskyrkan.se/calendar/events?$select=subject,start,end,location,categories' \
+            'https://graph.microsoft.com/v1.0/users/webbkalender@storegardskyrkan.se/calendar/events?$select=subject,start,end,location,categories,bodyPreview' \
             > graph-response.json
 
       - name: Skapa events.json
@@ -52,11 +52,15 @@ jobs:
                   "start": item["start"]["dateTime"],
                   "end": item["end"]["dateTime"],
                   "location": item.get("location", {}).get("displayName", ""),
-                  "categories": item.get("categories", [])
+                  "categories": item.get("categories", []),
+                  "description": item.get("bodyPreview", "")
               })
 
           with open("events.json", "w", encoding="utf-8") as f:
               json.dump(events, f, ensure_ascii=False, indent=2)
+
+          print("events.json skapad:")
+          print(open("events.json", encoding="utf-8").read())
           EOF
 
       - name: Commit events.json
